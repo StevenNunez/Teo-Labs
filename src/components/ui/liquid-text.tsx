@@ -19,8 +19,13 @@ import { useEffect, useRef } from 'react';
 interface LiquidTextProps {
   text: string;
   className?: string;
-  /** Color base en hexadecimal. */
+  /** Color base en hexadecimal. Multiplica al gradiente si hay uno. */
   color?: string;
+  /**
+   * Paradas de color del wordmark, en hexadecimal, repartidas de izquierda a
+   * derecha sobre el texto. Sin esto el texto sale blanco.
+   */
+  gradient?: string[];
   /** Opacidad global del wordmark. */
   opacity?: number;
   /** Cuanto arrastra el cursor a las letras (0 = nada). */
@@ -67,11 +72,14 @@ uniform float uPremultiply;
 varying vec2 vUv;
 
 void main() {
-  float mask = texture2D(uTexture, vUv).a;
+  // La textura viene premultiplicada: tex.rgb ya es color * mascara. Asi el
+  // gradiente horneado en el canvas se propaga solo, y con textura blanca
+  // tex.rgb == vec3(mascara), que es el caso de siempre.
+  vec4 tex = texture2D(uTexture, vUv);
   // uPremultiply = 0.0 -> pasada cromatica (RGB a full, se suman las tres)
   // uPremultiply = 1.0 -> pasada normal con alpha blending premultiplicado
   float rgbScale = mix(1.0, uColor.a, uPremultiply);
-  gl_FragColor = vec4(uColor.rgb * mask * rgbScale, mask * uColor.a);
+  gl_FragColor = vec4(uColor.rgb * tex.rgb * rgbScale, tex.a * uColor.a);
 }
 `;
 
@@ -123,7 +131,8 @@ function buildTextCanvas(
   text: string,
   fontFamily: string,
   fontWeight: number,
-  letterSpacing: number
+  letterSpacing: number,
+  gradient?: string[]
 ) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -159,7 +168,18 @@ function buildTextCanvas(
   ctx.scale(scale, scale);
   ctx.font = font;
   ctx.textBaseline = 'alphabetic';
-  ctx.fillStyle = '#ffffff';
+
+  // El gradiente se hornea en la textura y va de punta a punta del texto (sin
+  // contar el aire de los bordes), igual que el del logo del header.
+  if (gradient && gradient.length > 1) {
+    const fill = ctx.createLinearGradient(pad, 0, pad + textWidth, 0);
+    gradient.forEach((stop, i) => {
+      fill.addColorStop(i / (gradient.length - 1), stop);
+    });
+    ctx.fillStyle = fill;
+  } else {
+    ctx.fillStyle = gradient?.[0] ?? '#ffffff';
+  }
 
   let x = pad;
   chars.forEach((ch, i) => {
@@ -174,6 +194,7 @@ export default function LiquidText({
   text,
   className,
   color = '#FFFFFF',
+  gradient,
   opacity = 1,
   drag = 1,
   push = 0,
@@ -195,7 +216,13 @@ export default function LiquidText({
     const start = () => {
       if (disposed) return;
 
-      const built = buildTextCanvas(text, fontFamily, fontWeight, letterSpacing);
+      const built = buildTextCanvas(
+        text,
+        fontFamily,
+        fontWeight,
+        letterSpacing,
+        gradient
+      );
       if (!built) return;
       const { canvas: textCanvas, aspect } = built;
 
@@ -525,6 +552,7 @@ export default function LiquidText({
   }, [
     text,
     color,
+    gradient,
     opacity,
     drag,
     push,

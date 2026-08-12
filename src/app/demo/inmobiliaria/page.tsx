@@ -65,7 +65,7 @@ export default function InmobiliariaDemo() {
          <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]" />
          <div className="relative z-10 container px-6 text-center space-y-8">
             <h1 className="text-4xl md:text-6xl font-black text-white leading-tight drop-shadow-xl">Encuentra el hogar <br/>de tus sueños en Chile</h1>
-            <div className="max-w-4xl mx-auto bg-white p-3 rounded-[2rem] shadow-2xl flex flex-col md:flex-row items-center gap-3">
+            <div className="max-w-4xl mx-auto bg-white p-3 rounded-panel shadow-2xl flex flex-col md:flex-row items-center gap-3">
                <div className="flex-1 w-full relative">
                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5" />
                  <Input placeholder="Ciudad, Barrio o Comuna..." className="pl-12 border-none h-14 text-lg focus-visible:ring-0" />
@@ -156,7 +156,7 @@ export default function InmobiliariaDemo() {
                <Button className="bg-slate-900 hover:bg-slate-800 text-white rounded-2xl h-14 px-10 text-lg font-bold">Contactar un Agente</Button>
             </div>
             <div className="relative">
-               <div className="aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl">
+               <div className="aspect-[4/5] rounded-panel overflow-hidden shadow-2xl">
                   <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800" alt="Agent" className="w-full h-full object-cover" />
                </div>
                <div className="absolute -bottom-10 -right-10 bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 max-w-[280px]">

@@ -3,7 +3,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { MessageSquare, Sparkles, Rocket, Cpu } from 'lucide-react';
+import { Sparkles, Boxes, Cpu } from 'lucide-react';
 import Link from 'next/link';
 
 const WhatsAppIcon = ({ className }: { className?: string }) => (
@@ -17,19 +17,21 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+// Las opciones siguen los dos carriles de la seccion de Servicios, para que el
+// visitante encuentre lo mismo por los dos caminos.
 const messageOptions = [
   {
-    label: 'Software a Medida',
-    icon: <Rocket className="h-4 w-4" />,
-    message: 'Hola Teo Labs! Me gustaría recibir información sobre el desarrollo de software a medida para mi empresa.',
+    label: 'ERP o software a medida',
+    icon: <Boxes className="h-4 w-4" />,
+    message: 'Hola Teo Labs! Me interesa un ERP o software a medida para mi empresa. ¿Podemos agendar un diagnóstico?',
   },
   {
-    label: 'IA & Automatización',
+    label: 'Automatización & IA',
     icon: <Cpu className="h-4 w-4" />,
-    message: 'Hola! Quiero saber cómo puedo optimizar mis procesos actuales usando Inteligencia Artificial.',
+    message: 'Hola! Quiero saber cómo puedo automatizar procesos de mi empresa con IA.',
   },
   {
-    label: 'Páginas Web / E-commerce',
+    label: 'Web o e-commerce',
     icon: <Sparkles className="h-4 w-4" />,
     message: 'Hola! Me interesa cotizar una página web o tienda online para mi negocio.',
   },
@@ -42,16 +44,62 @@ export default function WhatsAppButton() {
     <div className="fixed bottom-6 right-6 z-50">
       <Popover>
         <PopoverTrigger asChild>
+          {/*
+            Antes: circulo verde con `animate-bounce` infinito y un punto rojo
+            pulsante arriba a la derecha. El punto imitaba la insignia de
+            "mensaje sin leer" de WhatsApp sin que hubiera ningun mensaje: es un
+            patron oscuro, y ademas gasta la unica alarma visual de la pagina en
+            algo falso. El rebote perpetuo terminaba de restarle seriedad.
+
+            Ahora es una pastilla que se expande al pasar el mouse y muestra la
+            invitacion en texto. Llama la atencion por forma, no por ansiedad.
+          */}
+          {/*
+            Tercera version de este boton. La anterior era una pastilla en
+            #25D366 pleno: el verde saturado de WhatsApp es mas fuerte que el
+            azul de los CTA, asi que el boton flotante terminaba siendo el
+            elemento mas llamativo de la pagina — por encima de "Iniciar
+            Proyecto", que es el que queremos que se aprete.
+
+            Ahora es una pastilla neutra, del mismo material que las tarjetas
+            (fondo `card` con hairline y blur). El verde queda solo en el icono,
+            que alcanza de sobra para reconocer WhatsApp al instante. Al pasar
+            el mouse se tine de verde: ahi si, porque ya hay intencion.
+          */}
+          {/*
+            Vidrio en reposo, marca al tocarlo.
+            En reposo es cristal puro: fondo translucido, hairline y blur, con
+            el glifo en color de texto atenuado. Al pasar el mouse o enfocarlo
+            con teclado se llena del verde oficial de WhatsApp (#25D366) y
+            aparece la etiqueta.
+
+            Por que asi: el verde pleno permanente era mas fuerte que el azul
+            de los CTA, o sea que el boton flotante le ganaba a "Iniciar
+            Proyecto". En vidrio no compite; y cuando hay intencion, la marca
+            aparece completa y es inconfundible.
+          */}
+          {/*
+            El logo va como MARCA, no como trazo.
+            El intento anterior dibujaba el glifo monocromo al 70% de opacidad
+            sobre el vidrio: a 24px eso se lee como un circulo vacio, porque
+            WhatsApp se reconoce por el contraste verde/blanco y no por la
+            silueta del telefono.
+
+            Ahora el vidrio es el contenedor y adentro va la insignia real —
+            disco verde #25D366 con el glifo blanco—, que es exactamente como
+            se ve el logo oficial. Vidrio afuera, marca adentro: cumple las dos
+            cosas sin sacrificar legibilidad.
+          */}
           <Button
-            className="h-16 w-16 rounded-full bg-[#25D366] text-white shadow-2xl transition-all hover:scale-110 hover:bg-[#20ba5a] group animate-bounce"
-            style={{ animationDuration: '3s' }}
+            aria-label="Contactar por WhatsApp"
+            className="group h-14 w-14 rounded-full border border-border/70 bg-foreground/[0.06] p-0 text-foreground backdrop-blur-2xl transition-all duration-300 hover:w-auto hover:border-[#25D366]/60 hover:bg-[#25D366]/10 hover:pr-5 focus-visible:w-auto focus-visible:border-[#25D366]/60 focus-visible:bg-[#25D366]/10 focus-visible:pr-5 focus-visible:ring-2 focus-visible:ring-[#25D366]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            <WhatsAppIcon className="h-9 w-9" />
-            <span className="sr-only">Contactar por WhatsApp</span>
-            <div className="absolute -top-1 -right-1 flex h-5 w-5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-5 w-5 bg-green-500 border-2 border-white"></span>
-            </div>
+            <span className="ml-[7px] flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white transition-transform duration-300 group-hover:scale-105">
+              <WhatsAppIcon className="h-[22px] w-[22px]" />
+            </span>
+            <span className="max-w-0 overflow-hidden whitespace-nowrap text-[15px] font-semibold opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:max-w-[180px] group-hover:opacity-100 group-focus-visible:ml-3 group-focus-visible:max-w-[180px] group-focus-visible:opacity-100">
+              Hablemos por WhatsApp
+            </span>
           </Button>
         </PopoverTrigger>
         <PopoverContent side="top" align="end" className="w-72 p-0 overflow-hidden rounded-2xl border-border/50 shadow-2xl">

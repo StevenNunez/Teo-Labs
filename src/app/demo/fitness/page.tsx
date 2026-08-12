@@ -110,7 +110,7 @@ export default function FitnessDemo() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
                   <div className="absolute inset-0 p-8 flex flex-col justify-end">
                      <div className="space-y-2 translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                        <div className="flex items-center gap-2 text-yellow-400 text-[10px] font-black uppercase tracking-widest">
+                        <div className="flex items-center gap-2 text-yellow-400 text-[10px] font-semibold uppercase tracking-widest">
                            <Clock size={12} /> {c.time} · {c.coach}
                         </div>
                         <h3 className="text-3xl font-black uppercase italic">{c.name}</h3>

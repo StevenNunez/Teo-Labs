@@ -164,7 +164,7 @@ export default function DemoPage() {
             "relative bg-white shadow-[0_40px_100px_-20px_rgba(0,0,0,0.3)] border border-border/50 transition-all duration-700 overflow-hidden",
             view === 'desktop' ? "w-full aspect-video rounded-3xl" : 
             view === 'tablet' ? "w-[768px] aspect-[4/3] rounded-3xl" : 
-            "w-[375px] aspect-[9/19] rounded-[3rem] border-[12px] border-black"
+            "w-[375px] aspect-[9/19] rounded-panel border-[12px] border-black"
           )}>
             <iframe 
               src={demo.frame} 

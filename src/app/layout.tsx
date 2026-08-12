@@ -1,10 +1,39 @@
 import type { Metadata } from 'next';
+import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { cn } from '@/lib/utils';
 import CookieBanner from '@/components/layout/cookie-banner';
 import WhatsAppButton from '@/components/layout/whatsapp-button';
+import Analytics from '@/components/layout/analytics';
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/site-url';
+
+/**
+ * Tipografia auto-alojada.
+ *
+ * Antes las fuentes venian por <link> a fonts.googleapis.com pidiendo
+ * `wght@400;500;700`, pero el sitio usa `font-bold` (900) en 107 lugares: el
+ * navegador tenia que falsificar ese peso (faux bold), que engorda los trazos
+ * artificialmente y deja los titulos pastosos. Space Grotesk ademas no existe
+ * sobre 700.
+ *
+ * next/font sirve las fuentes desde nuestro dominio (dos conexiones externas
+ * menos en el arranque) y calcula metricas de respaldo, asi el texto no salta
+ * cuando termina de cargar.
+ */
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  // Rango real de la familia: 300 a 700. No hay 800 ni 900.
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-headline',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -105,11 +134,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className="!scroll-smooth">
+    <html
+      lang="es"
+      // Sin clase de tema: el HTML del servidor sale en claro, que es el
+      // predeterminado, y el script de arriba agrega `dark` solo si el
+      // visitante lo eligio antes.
+      className={cn('!scroll-smooth', inter.variable, spaceGrotesk.variable)}
+      suppressHydrationWarning
+    >
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+        {/*
+          Aplica el tema ANTES del primer pintado. Sin esto el navegador pinta
+          el tema por defecto y recien despues corre React: el visitante que
+          eligio oscuro veria un fogonazo blanco en cada carga.
+          El default es CLARO; solo `dark` guardado explicitamente lo cambia.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{document.documentElement.classList.toggle('dark',localStorage.getItem('teolabs-theme')==='dark')}catch(e){}`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -122,6 +166,7 @@ export default function RootLayout({
         <Toaster />
         <CookieBanner />
         <WhatsAppButton />
+        <Analytics />
       </body>
     </html>
   );

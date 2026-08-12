@@ -1,77 +1,59 @@
-'use client';
-
-import Image from 'next/image';
-import { TrendingUp, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
-import { useState, useEffect } from 'react';
+// Sin estado ni efectos: puede renderizar entero en el servidor.
+import { ArrowRight, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import StackVisual from '@/components/ui/stack-visual';
+import SectionHeading from '@/components/ui/section-heading';
+import { PROJECTS } from '@/lib/projects';
 
-const getRandomNumber = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+/**
+ * Cifras contadas, no escritas a mano.
+ *
+ * Historia de este bloque, porque se equivoco dos veces seguidas: primero las
+ * tres metricas se re-sorteaban con Math.random() cada 1,5s (un visitante veia
+ * "+47%" y dos segundos despues "+33%"). Al arreglarlo quedaron fijas pero
+ * inventadas: "+50 Proyectos" contradecia el "11 plataformas en produccion"
+ * que el hero calcula de PROJECTS, en la misma pagina y a 400px de distancia.
+ *
+ * Ahora las dos primeras salen de PROJECTS, asi que no pueden desincronizarse
+ * de lo que el visitante ve mas abajo. Cada una es comprobable abriendo los
+ * enlaces del portafolio.
+ */
+const STATS = [
+  {
+    value: String(PROJECTS.length),
+    label: 'Plataformas en producción',
+  },
+  {
+    value: String(PROJECTS.filter((p) => p.kind === 'cliente').length),
+    label: 'Empresas cliente',
+  },
+  // Compromiso de servicio, no una estadistica: es una promesa que podemos
+  // cumplir, a diferencia de "8 años de experiencia" que nadie puede verificar.
+  { value: '<48h', label: 'Tiempo de respuesta' },
+];
 
 export default function AboutSection() {
-  const aboutImage = {
-    description: "Equipo de Teo Labs trabajando en soluciones digitales.",
-    imageUrl: "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", 
-    imageHint: "equipo oficina"
-  };
-
-  const initialStats = [
-    { label: "Crecimiento", base: 40, range: 10, prefix: '+', suffix: '%' },
-    { label: "Proyectos", base: 15, range: 5, prefix: '+', suffix: '' },
-    { label: "Retención", base: 100, range: 1, prefix: '', suffix: '%' },
-  ];
-  
-  const [animatedStats, setAnimatedStats] = useState(initialStats.map(s => `${s.prefix}${s.base}${s.suffix}`));
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setAnimatedStats(
-        initialStats.map(stat => {
-          let newValue;
-          if (stat.label === "Retención") {
-              newValue = getRandomNumber(98, 100);
-          } else {
-              newValue = getRandomNumber(stat.base - stat.range, stat.base + stat.range);
-          }
-          return `${stat.prefix}${newValue}${stat.suffix}`;
-        })
-      );
-    }, 1500);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <section id="about" className="relative py-24 md:py-40 bg-white overflow-hidden">
+    <section id="about" className="relative py-20 md:py-28 overflow-hidden">
       <div className="container px-4 md:px-6 relative z-10">
         <div className="grid items-center gap-16 lg:grid-cols-2 lg:gap-24">
           
           <div className="space-y-10">
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-600 text-sm font-bold">
-                <ShieldCheck className="h-4 w-4" />
-                Partner Tecnológico de Confianza
-              </div>
-              
-              <h2 className="text-4xl md:text-6xl font-black font-headline leading-tight">
-                Impulsamos tu <br />
-                <span className="text-primary">Visión de Negocio</span>
-              </h2>
-              
-              <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
-                En <strong>Teo Labs</strong>, no solo escribimos código; diseñamos el motor que escalará tu empresa. Entendemos los desafíos locales y los enfrentamos con soluciones de clase mundial.
-              </p>
-            </div>
+            <SectionHeading
+              className="mb-0"
+              eyebrow="Nosotros"
+              title="Impulsamos tu visión de negocio"
+              lead="En Teo Labs no solo escribimos código: diseñamos el motor que escalará tu empresa. Entendemos los desafíos locales y los enfrentamos con soluciones de clase mundial."
+            />
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-              {initialStats.map((stat, index) => (
-                <div key={index} className="space-y-1">
-                  <div className="text-4xl font-black font-headline text-foreground tabular-nums tracking-tighter">
-                    {animatedStats[index]}
+              {STATS.map((stat) => (
+                <div key={stat.label} className="space-y-1">
+                  <div className="text-4xl font-bold font-headline text-foreground tabular-nums tracking-tighter">
+                    {stat.value}
                   </div>
-                  <div className="text-xs font-black text-muted-foreground uppercase tracking-widest">
+                  <div className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
                     {stat.label}
                   </div>
                 </div>
@@ -89,24 +71,16 @@ export default function AboutSection() {
           </div>
 
           <div className="relative">
-            <div className="absolute -inset-4 bg-primary/10 blur-3xl rounded-full opacity-50" />
-            <div className="relative aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border border-border/50">
-              <Image
-                src={aboutImage.imageUrl}
-                alt={aboutImage.description}
-                fill
-                className="object-cover"
-                data-ai-hint={aboutImage.imageHint}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              
-              <div className="absolute bottom-8 left-8 right-8 p-6 glass-card rounded-[2rem] flex items-center gap-5">
-                <div className="h-14 w-14 rounded-2xl bg-primary/20 flex items-center justify-center text-primary shadow-lg">
-                  <Zap className="h-8 w-8 fill-current" />
+            <div className="relative aspect-[4/3] lg:aspect-[4/5] rounded-panel overflow-hidden border border-border/50">
+              <StackVisual />
+
+              <div className="absolute bottom-6 left-6 right-6 p-5 rounded-3xl border border-white/10 bg-white/[0.07] backdrop-blur-xl flex items-center gap-4">
+                <div className="h-12 w-12 shrink-0 rounded-2xl bg-primary/20 border border-primary/30 flex items-center justify-center text-primary">
+                  <Zap className="h-6 w-6 fill-current" />
                 </div>
                 <div className="space-y-1">
-                  <p className="font-black text-white text-lg font-headline leading-none">Resultados Reales</p>
-                  <p className="text-white/80 text-xs font-medium uppercase tracking-widest">Impacto en el balance final</p>
+                  <p className="font-bold text-white text-base font-headline leading-none">Resultados Reales</p>
+                  <p className="text-white/50 text-[11px] font-medium uppercase tracking-widest">Impacto en el balance final</p>
                 </div>
               </div>
             </div>

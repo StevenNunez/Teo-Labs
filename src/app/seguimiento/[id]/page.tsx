@@ -54,7 +54,7 @@ export default function ProjectTrackingPage() {
                 </Link>
               </Button>
               <div className="flex items-center gap-4">
-                <div className="h-16 w-16 rounded-[1.5rem] bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner">
+                <div className="h-16 w-16 rounded-3xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner">
                   <Zap className="h-8 w-8 text-primary" />
                 </div>
                 <div>
@@ -72,12 +72,12 @@ export default function ProjectTrackingPage() {
           </div>
 
           {/* Progress Card */}
-          <Card className="border-border/50 shadow-2xl rounded-[2.5rem] overflow-hidden bg-card/50 backdrop-blur-sm relative group">
+          <Card className="border-border/50 shadow-2xl rounded-panel overflow-hidden bg-card/50 backdrop-blur-sm relative group">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-green-500" />
             <CardContent className="p-10 space-y-8">
               <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-8">
                 <div className="space-y-2 text-center md:text-left">
-                  <span className="text-xs font-black text-primary uppercase tracking-[0.3em]">Avance del Proyecto</span>
+                  <span className="text-xs font-semibold text-primary uppercase tracking-[0.3em]">Avance del Proyecto</span>
                   <div className="text-7xl font-bold font-headline tracking-tighter transition-all group-hover:scale-105 duration-500">
                     {project.progress}%
                   </div>
@@ -126,7 +126,7 @@ export default function ProjectTrackingPage() {
                     <div className="flex items-center justify-between mb-2">
                       <h4 className="font-bold font-headline text-lg">{step.name}</h4>
                       {step.status === 'in_progress' && (
-                        <span className="text-[10px] font-black bg-primary text-white px-2 py-0.5 rounded-full animate-pulse">
+                        <span className="text-[10px] font-semibold bg-primary text-white px-2 py-0.5 rounded-full animate-pulse">
                           ACTUAL
                         </span>
                       )}
@@ -139,7 +139,7 @@ export default function ProjectTrackingPage() {
           </div>
 
           {/* Contact Support */}
-          <div className="bg-gradient-to-r from-[#25D366]/10 to-transparent rounded-[2.5rem] p-8 md:p-12 border border-[#25D366]/20 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="bg-gradient-to-r from-[#25D366]/10 to-transparent rounded-panel p-8 md:p-12 border border-[#25D366]/20 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="space-y-3 text-center md:text-left">
               <h4 className="text-2xl font-bold font-headline">¿Alguna observación?</h4>
               <p className="text-muted-foreground max-w-sm">Tu equipo de desarrollo está listo para escuchar tus comentarios.</p>

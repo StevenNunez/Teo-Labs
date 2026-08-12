@@ -4,33 +4,42 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Cookie, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { CONSENT_EVENT, CONSENT_KEY } from '@/components/layout/analytics';
 
 export default function CookieBanner() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     // Check if user has already accepted cookies
-    const consent = localStorage.getItem('cookie-consent');
+    const consent = localStorage.getItem(CONSENT_KEY);
     if (!consent) {
       const timer = setTimeout(() => setIsVisible(true), 3000); // Show after 3 seconds, more elegant
       return () => clearTimeout(timer);
     }
   }, []);
 
-  const handleAccept = () => {
-    localStorage.setItem('cookie-consent', 'true');
+  // Analytics escucha este evento: sin el, la decision recien tendria efecto
+  // en la siguiente carga de pagina.
+  const saveConsent = (value: 'true' | 'dismissed') => {
+    localStorage.setItem(CONSENT_KEY, value);
+    window.dispatchEvent(new Event(CONSENT_EVENT));
     setIsVisible(false);
   };
 
-  const handleDismiss = () => {
-    setIsVisible(false);
-  };
+  const handleAccept = () => saveConsent('true');
+
+  // Cerrar con la X tambien es una decision: si no la guardamos, el banner
+  // vuelve a aparecer en cada visita y termina siendo mas molesto que util.
+  // Se guarda como "dismissed", que NO habilita analytics.
+  const handleDismiss = () => saveConsent('dismissed');
 
   if (!isVisible) return null;
 
   return (
     <div className={cn(
-      "fixed bottom-6 left-6 right-6 md:left-auto md:right-8 md:max-w-sm z-[60]",
+      // El boton de WhatsApp vive en bottom-6 right-6: sin este margen extra
+      // el banner se le montaba encima y tapaba el canal de contacto principal.
+      "fixed bottom-28 left-6 right-6 md:bottom-6 md:left-auto md:right-28 md:max-w-sm z-[60]",
       "animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out"
     )}>
       <div className="relative bg-card/95 backdrop-blur-2xl border border-border/50 shadow-2xl rounded-2xl p-5 overflow-hidden">

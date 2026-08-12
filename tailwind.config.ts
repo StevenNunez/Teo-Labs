@@ -17,8 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Space Grotesk', 'sans-serif'],
+        body: ['var(--font-body)', 'system-ui', 'sans-serif'],
+        headline: ['var(--font-headline)', 'var(--font-body)', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -54,6 +54,13 @@ export default {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
+        // Las tres superficies del ritmo de pagina (ver globals.css).
+        canvas: 'hsl(var(--canvas))',
+        surface: 'hsl(var(--surface))',
+        ink: {
+          DEFAULT: 'hsl(var(--ink))',
+          muted: 'hsl(var(--ink-muted))',
+        },
         chart: {
           '1': 'hsl(var(--chart-1))',
           '2': 'hsl(var(--chart-2))',
@@ -66,6 +73,11 @@ export default {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+        // Radio unico para paneles y tarjetas grandes. Reemplaza a los cinco
+        // valores sueltos que convivian antes (1.5, 2, 2.5, 3 y 4rem): con
+        // cinco curvas distintas en pantalla nada parece parte del mismo
+        // sistema.
+        panel: 'var(--radius-panel)',
       },
       keyframes: {
         'accordion-down': {

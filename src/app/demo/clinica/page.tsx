@@ -112,7 +112,7 @@ export default function ClinicaDemo() {
 
       {/* CTA Section */}
       <section className="py-20 container mx-auto px-6">
-        <div className="bg-emerald-600 rounded-[3rem] p-12 md:p-20 text-center text-white space-y-8 shadow-2xl shadow-emerald-600/20">
+        <div className="bg-emerald-600 rounded-panel p-12 md:p-20 text-center text-white space-y-8 shadow-2xl shadow-emerald-600/20">
            <h2 className="text-4xl md:text-6xl font-bold">¿Listo para sonreír?</h2>
            <p className="text-emerald-100 text-lg max-w-xl mx-auto">Reserva tu evaluación inicial gratuita y descubre lo que podemos hacer por ti.</p>
            <Button className="bg-white text-emerald-700 hover:bg-emerald-50 h-16 px-12 rounded-2xl text-xl font-bold">Agendar Evaluación Gratis</Button>

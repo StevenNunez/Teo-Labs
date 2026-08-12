@@ -1,41 +1,51 @@
-'use client';
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import { PROJECTS } from '@/lib/projects';
 
-import React from 'react';
+/**
+ * Franja de clientes.
+ *
+ * Antes era un marquee infinito con ocho nombres, de los cuales varios eran de
+ * relleno ("Pyme Digital", "Studio Creativo", "Innovacion CL", "Logistica
+ * Sur"). Un cliente inventado no suma confianza: resta, porque el visitante
+ * que detecta uno falso pone en duda tambien los verdaderos. Encima iban en
+ * `text-slate-200` sobre blanco, ilegibles por diseno, lo que delata que eran
+ * decoracion y no prueba.
+ *
+ * Ahora la lista sale de los proyectos de cliente reales y cada nombre enlaza
+ * al sitio que efectivamente construimos. Cuatro comprobables valen mas que
+ * ocho decorativos.
+ */
 
-const clients = [
-  { name: 'FerroActiva', logo: 'FERROACTIVA' },
-  { name: 'Catering Express', logo: 'CATERING' },
-  { name: 'Hospedaje Serena', logo: 'HOSPEDAJE' },
-  { name: 'Constructora Recarp', logo: 'RECARP' },
-  { name: 'Logística Sur', logo: 'LOGISTICA' },
-  { name: 'Innovación CL', logo: 'INNOVACIÓN' },
-  { name: 'Pyme Digital', logo: 'PYME DIGITAL' },
-  { name: 'Studio Creativo', logo: 'STUDIO' },
-];
+const CLIENTS = PROJECTS.filter((p) => p.kind === 'cliente');
 
 export default function ClientsSection() {
   return (
-    <section className="py-16 bg-white border-y border-border/40 overflow-hidden">
-      <div className="container px-4 md:px-6 mb-10">
-        <p className="text-center text-xs font-black text-muted-foreground uppercase tracking-[0.4em]">
-          Empresas que confían en nuestro código
+    <section className="py-16 border-y border-border/40">
+      <div className="container px-4 md:px-6">
+        <p className="text-center text-xs font-semibold text-muted-foreground uppercase tracking-[0.4em]">
+          Empresas que ya trabajan con nuestro software
         </p>
-      </div>
-      
-      <div className="relative flex overflow-hidden">
-        <div className="flex animate-marquee whitespace-nowrap py-4">
-          {[...clients, ...clients, ...clients].map((client, index) => (
-            <div 
-              key={index}
-              className="mx-16 text-3xl md:text-5xl font-black font-headline tracking-tighter text-slate-200 hover:text-primary transition-colors cursor-default select-none duration-500"
+
+        <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4">
+          {CLIENTS.map((client) => (
+            <Link
+              key={client.id}
+              href={client.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col items-center gap-1.5 text-center"
             >
-              {client.logo}
-            </div>
+              <span className="font-headline text-xl md:text-2xl font-bold tracking-tight text-foreground/80 transition-colors group-hover:text-foreground">
+                {client.name}
+              </span>
+              <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground transition-colors group-hover:text-primary">
+                {client.tags[1] ?? client.tags[0]}
+                <ArrowUpRight className="h-3 w-3" />
+              </span>
+            </Link>
           ))}
         </div>
-
-        <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-white to-transparent z-10" />
-        <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-white to-transparent z-10" />
       </div>
     </section>
   );
