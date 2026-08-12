@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import { ExternalLink, Heart } from 'lucide-react';
-import InteractiveLogo from '@/components/ui/interactive-logo';
+import LiquidText from '@/components/ui/liquid-text';
 
 const footerLinks = {
   services: {
@@ -137,14 +137,8 @@ export default function Footer() {
         </div>
 
         {/* Giant TEO LABS Text */}
-        <div ref={containerRef} className="relative mb-0 overflow-hidden select-none pb-4">
-          <div className="relative flex justify-center items-center">
-            <InteractiveLogo 
-              text="TEO LABS" 
-              variant="footer-giant" 
-              className="font-headline font-black text-[18vw] md:text-[16vw] text-white leading-none tracking-tighter opacity-90" 
-            />
-          </div>
+        <div ref={containerRef} className="relative mb-0 select-none pb-4">
+          <LiquidText text="TEO LABS" className="w-full" />
         </div>
 
         {/* Bottom Bar */}
