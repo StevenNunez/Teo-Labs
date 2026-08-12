@@ -8,18 +8,31 @@ import imageData from '@/app/lib/placeholder-images.json';
 
 const letters = "TEO LABS".split("");
 
-export default function SplashScreen({ onComplete }: { onComplete: () => void }) {
+export default function SplashScreen({ onComplete }: { onComplete?: () => void }) {
   const [isAnimating, setIsAnimating] = useState(true);
 
   useEffect(() => {
     // Reducimos el tiempo total a 4.5 segundos para que sea más ágil
     const timer = setTimeout(() => {
       setIsAnimating(false);
-      setTimeout(onComplete, 800); 
+      setTimeout(() => onComplete?.(), 800);
     }, 4500);
 
     return () => clearTimeout(timer);
   }, [onComplete]);
+
+  // El contenido de la página ya está detrás de esta capa, así que hay que
+  // impedir que se pueda hacer scroll mientras el splash la está tapando.
+  useEffect(() => {
+    if (!isAnimating) return;
+
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [isAnimating]);
 
   return (
     <AnimatePresence>

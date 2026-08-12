@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowRight, Rocket, CheckCircle2, Star } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ArrowRight, CheckCircle2, Star } from 'lucide-react';
 
 const STATS = [
   { value: '+50', label: 'Proyectos entregados' },

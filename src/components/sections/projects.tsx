@@ -16,6 +16,33 @@ export type Project = {
 
 const projects: Project[] = [
   {
+    id: 'pagnol',
+    name: 'PAGNOL',
+    description: 'ERP de gestión de activos para minería y construcción: control de pañol con verificación facial, trazabilidad por QR y reportes ISO 55001, con o sin señal en faena.',
+    imageUrl: '/proyectos/pagnol.png',
+    imageHint: 'panel de control del ERP PAGNOL',
+    deploymentUrl: 'https://www.pagnol.cl/',
+    tags: ['ERP', 'Minería', 'Biometría'],
+  },
+  {
+    id: 'grupo-valar',
+    name: 'Grupo Valar',
+    description: 'Sitio corporativo para ingeniería, obras civiles y mantenimiento industrial en Antofagasta, con galería de proyectos filtrable y contacto directo por WhatsApp.',
+    imageUrl: '/proyectos/grupovalar.png',
+    imageHint: 'sitio corporativo de Grupo Valar',
+    deploymentUrl: 'https://www.grupovalar.cl/',
+    tags: ['Corporativo', 'Industrial', 'SEO Pro'],
+  },
+  {
+    id: 'plumber-servicios',
+    name: 'Plumber Servicios',
+    description: 'Plataforma para especialistas en ingeniería hidráulica, alcantarillado y gasfitería industrial en Los Ángeles, con portafolio de obras administrable.',
+    imageUrl: '/proyectos/plumber.webp',
+    imageHint: 'obra de hormigonado ejecutada por Plumber Servicios',
+    deploymentUrl: 'https://www.plumberservicios.cl/',
+    tags: ['Corporativo', 'Hidráulica', 'SEO Local'],
+  },
+  {
     id: 'catering-app',
     name: 'Catering Pro',
     description: 'Plataforma de gestión de pedidos y logística para servicios de alimentación a gran escala.',
@@ -41,15 +68,6 @@ const projects: Project[] = [
     imageHint: 'weather dashboard',
     deploymentUrl: 'https://weather-app-steven.vercel.app/',
     tags: ['Real-time', 'API', 'Data Viz'],
-  },
-  {
-    id: 'apps-hospedaje',
-    name: 'Hospedaje Express',
-    description: 'Solución de búsqueda y gestión de propiedades con filtros de alto rendimiento.',
-    imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800',
-    imageHint: 'real estate platform',
-    deploymentUrl: 'https://windbnd-react-steven.vercel.app/',
-    tags: ['SaaS', 'Maps', 'Conversion'],
   },
 ];
 

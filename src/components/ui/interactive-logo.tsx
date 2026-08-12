@@ -22,14 +22,19 @@ export default function InteractiveLogo({
 }: InteractiveLogoProps) {
   return (
     <span className={cn("flex select-none", className)}>
-      {text.split('').map((char, index) => (
-        <AnimatedLetter 
-          key={index} 
-          char={char} 
-          index={index} 
-          variant={variant} 
-        />
-      ))}
+      {/* El texto va partido letra por letra para el efecto, asi que se expone
+          una version plana para lectores de pantalla y rastreadores. */}
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true" className="flex">
+        {text.split('').map((char, index) => (
+          <AnimatedLetter
+            key={index}
+            char={char}
+            index={index}
+            variant={variant}
+          />
+        ))}
+      </span>
     </span>
   );
 }

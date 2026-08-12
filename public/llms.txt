@@ -1,0 +1,30 @@
+# Teo Labs
+
+> Software house chilena que desarrolla software a medida para pymes y startups.
+> Con base en La Serena, Región de Coquimbo, y servicio a todo Chile.
+
+Teo Labs construye código propio, sin plantillas: aplicaciones web, tiendas
+online, aplicaciones móviles, automatización de procesos e integración de
+inteligencia artificial. El foco está en pymes y startups que necesitan
+digitalizar o escalar su operación.
+
+## Servicios
+
+- **Webs corporativas**: sitios de presencia digital con diseño responsive,
+  hosting, correos corporativos y optimización SEO base.
+- **E-commerce**: tiendas online en tres niveles, desde carrito y gestión de
+  productos hasta multivendedor, chat en vivo y PWA.
+- **Software y apps a medida**: ERP, CRM, aplicaciones móviles iOS y Android,
+  integración de APIs y automatización con IA. Cotización según requerimientos.
+
+## Enlaces
+
+- Sitio: https://teolabs.app
+- Portafolio: https://teolabs.app/portafolio-web
+- Contacto: steven@teolabs.app / WhatsApp +56 9 3093 8222
+- LinkedIn: https://cl.linkedin.com/company/teo-labs
+
+## Contacto comercial
+
+Para cotizaciones, escribir a steven@teolabs.app o por WhatsApp. El tiempo de
+respuesta habitual es menor a 48 horas.

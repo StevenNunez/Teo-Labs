@@ -9,6 +9,33 @@ import { cn } from '@/lib/utils';
 
 const webProjects = [
   {
+    title: 'PAGNOL',
+    description: 'ERP de gestión de activos para minería y construcción: control de pañol con verificación facial, trazabilidad por QR y reportes ISO 55001. Funciona con o sin señal en faena.',
+    image: '/proyectos/pagnol.png',
+    tags: ['ERP', 'Minería', 'Biometría'],
+    url: 'https://www.pagnol.cl/',
+    isReal: true,
+    category: 'Software'
+  },
+  {
+    title: 'Grupo Valar',
+    description: 'Sitio corporativo para una empresa de ingeniería, obras civiles y mantenimiento industrial en Antofagasta, con galería de proyectos filtrable y contacto directo por WhatsApp.',
+    image: '/proyectos/grupovalar.png',
+    tags: ['Corporativo', 'Industrial', 'SEO Pro'],
+    url: 'https://www.grupovalar.cl/',
+    isReal: true,
+    category: 'Corporativo'
+  },
+  {
+    title: 'Plumber Servicios',
+    description: 'Plataforma para especialistas en ingeniería hidráulica, alcantarillado y gasfitería industrial en Los Ángeles, con portafolio de obras administrable y atención inmediata.',
+    image: '/proyectos/plumber.webp',
+    tags: ['Corporativo', 'Hidráulica', 'SEO Local'],
+    url: 'https://www.plumberservicios.cl/',
+    isReal: true,
+    category: 'Ingeniería'
+  },
+  {
     title: 'Constructora Recarp',
     description: 'Sitio web corporativo de alto impacto con enfoque en conversión y SEO para el sector industrial.',
     image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=800',
