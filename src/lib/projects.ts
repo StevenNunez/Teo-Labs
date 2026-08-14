@@ -24,8 +24,22 @@ export type Project = {
    * simular uuna que no es del proyecto.
    */
   image?: string;
+  /**
+   * Logo de la empresa/producto, en /public/logos. Se muestra sobre el nombre
+   * tanto en el indice de la home como en la tarjeta del portafolio. Es
+   * opcional: si falta, queda solo el nombre y nada se rompe.
+   */
+  logo?: string;
   tags: string[];
   kind: ProjectKind;
+  /**
+   * Empresa real que opera con este software, cuando el proyecto es un producto
+   * nuestro pero corre dentro de una compania concreta. La franja de "empresas
+   * que ya trabajan con nuestro software" se arma con esto: FerroActiva es una
+   * constructora que usa Control de Obra, y ahi tiene que aparecer con su
+   * nombre y su logo, no con el del producto.
+   */
+  company?: string;
   /** Aparece en la seccion de la home (las 6 mas fuertes). */
   featured?: boolean;
 };
@@ -38,7 +52,7 @@ export const PROJECTS: Project[] = [
     description:
       'ERP chileno de gestión de activos para faenas mineras y de construcción: pañol digital con QR y biometría, inventario en tiempo real, mantenimiento de equipos y reportes de terreno.',
     url: 'https://www.pagnol.cl/',
-    image: '/proyectos/pagnol.png',
+    logo: '/logos/pagnol.png',
     tags: ['ERP', 'Minería', 'Biometría'],
     kind: 'producto',
     featured: true,
@@ -49,6 +63,7 @@ export const PROJECTS: Project[] = [
     description:
       'Software de control operativo para constructoras y contratistas: bodega de materiales, compras, avance físico con EDT y Carta Gantt, estados de pago, prevención de riesgos y asistencia.',
     url: 'https://www.gestiondeobras.app/',
+    logo: '/logos/gestion-de-obras.png',
     tags: ['SaaS', 'Construcción', 'Carta Gantt'],
     kind: 'producto',
     featured: true,
@@ -79,8 +94,10 @@ export const PROJECTS: Project[] = [
     description:
       'Gestión y control de obra en tiempo real para constructoras, contratistas e inmobiliarias, potenciada con un asistente de IA.',
     url: 'https://ferroactiva.teolabs.app/',
+    logo: '/logos/ferroactiva.png',
     tags: ['Control de obra', 'IA', 'Tiempo real'],
     kind: 'producto',
+    company: 'FerroActiva',
   },
   {
     id: 'monty',
@@ -107,7 +124,7 @@ export const PROJECTS: Project[] = [
     description:
       'Sitio corporativo de Servicios y Proyectos Valar SpA (Antofagasta): obras civiles, movimiento de tierra, mantenimiento industrial e ingeniería 3D. Contratista de SQM, Copec, Coca-Cola Andina y Puerto Mejillones.',
     url: 'https://www.grupovalar.cl/',
-    image: '/proyectos/grupovalar.png',
+    logo: '/logos/grupo-valar.png',
     tags: ['Corporativo', 'Industrial', 'SEO Pro'],
     kind: 'cliente',
     featured: true,
@@ -118,7 +135,7 @@ export const PROJECTS: Project[] = [
     description:
       'Sitio corporativo para especialistas en ingeniería hidráulica, alcantarillado, redes de incendio y gasfitería industrial en Los Ángeles, Región del Biobío.',
     url: 'https://www.plumberservicios.cl/',
-    image: '/proyectos/plumber.webp',
+    logo: '/logos/plumber-servicios.png',
     tags: ['Corporativo', 'Hidráulica', 'SEO Local'],
     kind: 'cliente',
     featured: true,
@@ -129,6 +146,7 @@ export const PROJECTS: Project[] = [
     description:
       'Sitio corporativo de Constructora Recarp SpA: terminaciones finas y construcción especializada en la Región de Coquimbo, con obras de hormigón armado y estructuras metálicas.',
     url: 'https://www.constructorarecarp.cl/',
+    logo: '/logos/constructora-recarp.png',
     tags: ['Corporativo', 'Construcción', 'SEO'],
     kind: 'cliente',
   },
@@ -138,9 +156,21 @@ export const PROJECTS: Project[] = [
     description:
       'Sitio corporativo de Irarrázaval Servicios SpA, especialistas en ingeniería eléctrica y construcción civil.',
     url: 'https://www.irarrazavalservicios.cl/',
+    logo: '/logos/irarrazaval.png',
     tags: ['Corporativo', 'Ingeniería', 'Eléctrica'],
     kind: 'cliente',
   },
 ];
 
 export const FEATURED_PROJECTS = PROJECTS.filter((p) => p.featured);
+
+/**
+ * Empresas que operan con software nuestro: los sitios corporativos que
+ * entregamos mas las que corren un producto nuestro puertas adentro
+ * (FerroActiva con Control de Obra).
+ *
+ * Vive aca y no en cada seccion porque la franja de clientes y la cifra
+ * "Empresas cliente" de Nosotros estan a 400px una de otra: si cada una cuenta
+ * con su propio criterio, el visitante ve "4" arriba de cinco logos.
+ */
+export const CLIENT_COMPANIES = PROJECTS.filter((p) => p.kind === 'cliente' || p.company);

@@ -23,11 +23,19 @@ export default function SectionHeading({
   title,
   lead,
   className,
+  titleClassName,
 }: {
   eyebrow: string;
   title: React.ReactNode;
   lead?: React.ReactNode;
   className?: string;
+  /**
+   * El tamano por defecto esta calculado para un titular a todo el ancho del
+   * container. Cuando el encabezado vive dentro de una columna de la mitad
+   * (contacto), 6.5vw se pasa del ancho disponible y una palabra larga se corta
+   * contra el `overflow-hidden` de la seccion. Ahi se pasa un clamp mas chico.
+   */
+  titleClassName?: string;
 }) {
   return (
     <div className={cn('mb-14 md:mb-20', className)}>
@@ -37,7 +45,12 @@ export default function SectionHeading({
         </span>
       </div>
 
-      <h2 className="mt-6 max-w-[18ch] font-headline font-bold leading-[0.92] tracking-[-0.035em] text-[clamp(2.5rem,6.5vw,7rem)]">
+      <h2
+        className={cn(
+          'mt-6 max-w-[18ch] font-headline font-bold leading-[0.92] tracking-[-0.035em] text-[clamp(2.5rem,6.5vw,7rem)]',
+          titleClassName
+        )}
+      >
         {title}
       </h2>
 

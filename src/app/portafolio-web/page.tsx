@@ -7,6 +7,7 @@ import { ArrowLeft, ExternalLink, Sparkles, Monitor, Rocket, Zap, Boxes, Buildin
 import { cn } from '@/lib/utils';
 import { PROJECTS, type Project } from '@/lib/projects';
 import ProjectThumb from '@/components/ui/project-thumb';
+import ProjectLogo from '@/components/ui/project-logo';
 
 /**
  * Las demos son maquetas nuestras para mostrar formatos, no trabajos de
@@ -242,6 +243,12 @@ function RealProjectCard({ project }: { project: Project }) {
             </span>
           ))}
         </div>
+
+        {project.logo && (
+          <span className="mb-3 inline-flex h-12 w-fit items-center rounded-xl bg-white px-3 ring-1 ring-black/5">
+            <ProjectLogo project={project} height={32} fit className="mb-0 max-w-[170px]" />
+          </span>
+        )}
 
         <h3 className="mb-3 font-headline text-2xl font-bold leading-none transition-colors group-hover:text-primary">
           {project.name}

@@ -3,7 +3,7 @@
 // ese codigo muerto la seccion entera renderiza en el servidor.
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import ProjectWizard from "./project-wizard";
-import { Sparkles, Rocket, Zap } from "lucide-react";
+import { Rocket, Zap } from "lucide-react";
 import { WhatsAppIcon } from '@/components/layout/whatsapp-button';
 import SectionHeading from '@/components/ui/section-heading';
 
@@ -18,6 +18,7 @@ export default function ContactSection() {
             <div className="space-y-8">
               <SectionHeading
                 className="mb-0"
+                titleClassName="text-[clamp(2.5rem,4.6vw,5.5rem)]"
                 eyebrow="Contacto · Agenda abierta"
                 title="Construyamos tu futuro"
                 lead="Cada gran empresa comenzó con una conversación. Cuéntanos tu desafío y te entregaremos una propuesta tecnológica que mueva la aguja de tu negocio."
@@ -59,14 +60,9 @@ export default function ContactSection() {
             <Card className="relative border-border/40 bg-canvas/80 backdrop-blur-2xl rounded-panel overflow-hidden border-2">
               <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 via-purple-600 to-green-500" />
               <CardHeader className="space-y-4 p-10 pb-6">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                    <Sparkles className="h-5 w-5" />
-                  </div>
-                  <CardTitle className="text-3xl font-bold font-headline tracking-tight">
-                    Inicia tu Proyecto
-                  </CardTitle>
-                </div>
+                <CardTitle className="text-3xl font-bold font-headline tracking-tight">
+                  Inicia tu Proyecto
+                </CardTitle>
                 <CardDescription className="text-base font-medium">
                   Tres preguntas, menos de un minuto. Te respondemos con una propuesta técnica en menos de 48 horas.
                 </CardDescription>

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import StackVisual from '@/components/ui/stack-visual';
 import SectionHeading from '@/components/ui/section-heading';
-import { PROJECTS } from '@/lib/projects';
+import { PROJECTS, CLIENT_COMPANIES } from '@/lib/projects';
 
 /**
  * Cifras contadas, no escritas a mano.
@@ -25,7 +25,7 @@ const STATS = [
     label: 'Plataformas en producción',
   },
   {
-    value: String(PROJECTS.filter((p) => p.kind === 'cliente').length),
+    value: String(CLIENT_COMPANIES.length),
     label: 'Empresas cliente',
   },
   // Compromiso de servicio, no una estadistica: es una promesa que podemos

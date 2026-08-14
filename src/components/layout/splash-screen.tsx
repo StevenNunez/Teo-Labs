@@ -141,6 +141,11 @@ export default function SplashScreen({ onComplete }: { onComplete?: () => void }
                 src={imageData.splash.globe.url}
                 alt={imageData.splash.globe.description}
                 fill
+                // Sin `sizes`, un `fill` vale `100vw`: el navegador pedia la
+                // variante del ancho completo de la pantalla para un globo que
+                // nunca pasa de 208px. Es la primera descarga de la visita y
+                // bloquea el splash, asi que aca el tamaño real importa.
+                sizes="208px"
                 className="object-contain"
                 priority // Prioridad máxima para evitar parpadeos
               />

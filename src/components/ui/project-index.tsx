@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ProjectThumb from '@/components/ui/project-thumb';
+import ProjectLogo from '@/components/ui/project-logo';
 import type { Project } from '@/lib/projects';
 
 /**
@@ -57,6 +58,14 @@ export default function ProjectIndex({ projects }: { projects: Project[] }) {
           </span>
 
           <span className="min-w-0 flex-1">
+            {/* Caja de alto fijo: sin ella un isotipo cuadrado se ve la mitad
+                de grande que un logo horizontal con el mismo alto nominal, y
+                las filas quedan bailando entre si. */}
+            {project.logo && (
+              <span className="mb-2.5 inline-flex h-12 items-center rounded-xl bg-white px-3 ring-1 ring-black/5">
+                <ProjectLogo project={project} height={32} fit className="mb-0 max-w-[170px]" />
+              </span>
+            )}
             <span className="block font-headline text-2xl font-bold tracking-tight transition-colors group-hover:text-primary md:text-4xl">
               {project.name}
             </span>
