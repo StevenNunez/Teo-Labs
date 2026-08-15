@@ -27,13 +27,7 @@ export default function HeroSection() {
         <div className="flex flex-col items-center text-center space-y-10">
 
           {/* El badge lleva un dato contado, no un adjetivo. */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 text-primary text-sm font-semibold animate-in fade-in slide-in-from-top-4 duration-700">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-            </span>
-            {PROJECTS.length} plataformas en producción
-          </div>
+
 
           {/* Headline */}
           <div className="max-w-5xl space-y-6">

@@ -17,3 +17,40 @@ env:
     secret: gemini-api-key
     availability:
       - RUNTIME
+
+  # --- Supabase ---
+  #
+  # Ojo con `availability`, que es lo que suele fallar aca:
+  #
+  #   BUILD   -> la variable existe mientras se compila. Las NEXT_PUBLIC_ la
+  #              necesitan si o si, porque Next las incrusta en el bundle del
+  #              navegador en tiempo de build. Sin BUILD el wizard queda sin
+  #              cliente de Supabase y deja de guardar leads, en silencio.
+  #   RUNTIME -> la variable existe cuando el servidor atiende pedidos. Es lo
+  #              que necesitan el panel y /seguimiento para leer la base.
+  #
+  # La URL lleva las dos porque la usan el navegador (build) y supabase-admin
+  # en el servidor (runtime).
+  - variable: NEXT_PUBLIC_SUPABASE_URL
+    secret: supabase-url
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: NEXT_PUBLIC_SUPABASE_ANON_KEY
+    secret: supabase-anon-key
+    availability:
+      - BUILD
+      - RUNTIME
+  # La service_role se salta Row Level Security: es la clave maestra de la base.
+  # Solo RUNTIME, y jamas con prefijo NEXT_PUBLIC_ (quedaria en el bundle).
+  - variable: SUPABASE_SERVICE_ROLE_KEY
+    secret: supabase-service-role-key
+    availability:
+      - RUNTIME
+
+  # Clave del panel interno. Sin ella el middleware falla cerrado: /admin
+  # responde 503 y no entra nadie, ni vos.
+  - variable: ADMIN_PASSWORD
+    secret: admin-password
+    availability:
+      - RUNTIME

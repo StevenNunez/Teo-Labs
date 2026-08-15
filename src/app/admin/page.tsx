@@ -1,283 +1,168 @@
-'use client';
-
-import React, { useState } from 'react';
+import type { Metadata } from 'next';
+import { Database, TriangleAlert } from 'lucide-react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { 
-  LayoutDashboard, 
-  Clock, 
-  AlertCircle, 
-  CheckCircle2, 
-  DollarSign, 
-  Plus, 
-  Search, 
-  ExternalLink, 
-  Calendar,
-  Filter,
-  Sparkles,
-  TrendingUp,
-  MessageSquare
-} from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from '@/components/ui/table';
-import { 
-  ChartContainer, 
-  ChartTooltip, 
-  ChartTooltipContent 
-} from '@/components/ui/chart';
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from 'recharts';
-import { generateStatusReport } from '@/ai/flows/generate-status-report';
-import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { loadAdminData } from '@/lib/admin-data';
+import { isDatabaseConfigured } from '@/lib/supabase-admin';
+import { isMaintenanceOverdue, type ProjectWithClient } from '@/lib/admin-types';
+import AdminDashboard from './admin-dashboard';
 
-const chartData = [
-  { month: 'Ene', projects: 2 },
-  { month: 'Feb', projects: 4 },
-  { month: 'Mar', projects: 3 },
-  { month: 'Abr', projects: 6 },
-  { month: 'May', projects: 8 },
-  { month: 'Jun', projects: 12 },
-];
+/**
+ * Panel interno. Server Component a proposito: la lectura de clientes, montos y
+ * estados de pago se hace aca con la service_role key y solo bajan al navegador
+ * los datos ya renderizados. La proteccion de acceso vive en src/middleware.ts.
+ */
 
-const initialProjects = [
-  {
-    id: '1',
-    name: 'Constructora Recarp',
-    client: 'Recarp SpA',
-    status: 'active',
-    payment: 'paid',
-    maintenance: '2025-05-15',
-    progress: 100,
-    type: 'Corporativo',
-    currentStep: 'Finalizado',
-    nextMilestone: 'Renovación Anual'
-  },
-  {
-    id: '2',
-    name: 'FerroActiva App',
-    client: 'FerroActiva',
-    status: 'active',
-    payment: 'pending',
-    maintenance: '2024-12-20',
-    progress: 100,
-    type: 'Web App',
-    currentStep: 'Producción',
-    nextMilestone: 'Nuevas Funcionalidades'
-  },
-  {
-    id: '3',
-    name: 'Nueva Clínica Dental',
-    client: 'Dr. Smith',
-    status: 'in_progress',
-    payment: 'paid',
-    maintenance: 'N/A',
-    progress: 35,
-    type: 'E-commerce',
-    currentStep: 'Diseño de Interfaz',
-    nextMilestone: 'Backend Integration'
-  },
-];
+export const metadata: Metadata = {
+  title: 'Centro de Mandos',
+  robots: { index: false, follow: false },
+};
 
-export default function AdminDashboard() {
-  const [projects] = useState(initialProjects);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isGenerating, setIsGenerating] = useState<string | null>(null);
-  const { toast } = useToast();
+// Sin esto Next intentaria prerenderizar el panel en el build, cuando todavia no
+// hay datos (ni variables de entorno de base) y mostraria una foto vieja.
+export const dynamic = 'force-dynamic';
 
-  const handleGenerateReport = async (project: typeof initialProjects[0]) => {
-    setIsGenerating(project.id);
-    try {
-      const report = await generateStatusReport({
-        projectName: project.name,
-        clientName: project.client,
-        progress: project.progress,
-        currentStep: project.currentStep,
-        nextMilestone: project.nextMilestone,
-      });
+const MONTHS = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
-      const whatsappUrl = `https://wa.me/56930938222?text=${encodeURIComponent(report.message)}`;
-      window.open(whatsappUrl, '_blank');
-      
-      toast({
-        title: "Reporte con IA generado",
-        description: "Se ha abierto WhatsApp con el mensaje redactado.",
-      });
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "No pudimos conectar con la IA en este momento.",
-      });
-    } finally {
-      setIsGenerating(null);
-    }
-  };
+/** Proyectos iniciados por mes en los ultimos 6, incluido el actual. */
+function buildChart(projects: ProjectWithClient[]) {
+  const now = new Date();
+  const buckets = Array.from({ length: 6 }, (_, index) => {
+    const date = new Date(now.getFullYear(), now.getMonth() - (5 - index), 1);
+    return { key: `${date.getFullYear()}-${date.getMonth()}`, month: MONTHS[date.getMonth()], projects: 0 };
+  });
 
+  for (const project of projects) {
+    const created = new Date(project.created_at);
+    const key = `${created.getFullYear()}-${created.getMonth()}`;
+    const bucket = buckets.find((b) => b.key === key);
+    if (bucket) bucket.projects += 1;
+  }
+
+  return buckets.map(({ month, projects: count }) => ({ month, projects: count }));
+}
+
+function Code({ children }: { children: React.ReactNode }) {
+  return <code className="rounded bg-muted px-1.5 py-0.5 text-xs">{children}</code>;
+}
+
+/** Pantalla de setup: el panel no puede mostrar datos y explica exactamente por que. */
+function SetupCard({
+  icon,
+  title,
+  children,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex flex-col min-h-screen bg-muted/20">
       <Header />
-      <main className="flex-1 container py-10 px-4 md:px-8 max-w-7xl mx-auto">
-        
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-          <div>
-            <h1 className="text-4xl font-bold font-headline tracking-tight">Centro de Mandos</h1>
-            <p className="text-muted-foreground mt-1">Gestión inteligente de clientes y proyectos Teo Labs.</p>
-          </div>
-          <div className="flex gap-3">
-            <Button variant="outline" className="rounded-xl">
-              <TrendingUp className="mr-2 h-4 w-4" /> Reportes Mensuales
-            </Button>
-            <Button className="rounded-xl shadow-lg shadow-primary/20 bg-primary">
-              <Plus className="mr-2 h-4 w-4" /> Nuevo Proyecto
-            </Button>
-          </div>
-        </div>
-
-        {/* Analytic Cards & Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <Card className="lg:col-span-2 border-border/50 shadow-xl overflow-hidden rounded-2xl bg-card">
-            <CardHeader>
-              <CardTitle className="text-lg font-headline flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-primary" />
-                Crecimiento de Cartera
-              </CardTitle>
-              <CardDescription>Proyectos activos y entregados este año.</CardDescription>
-            </CardHeader>
-            <CardContent className="h-[250px] p-0 pb-4">
-              <ChartContainer config={{ projects: { label: "Proyectos", color: "hsl(var(--primary))" } }}>
-                <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.1} />
-                  <XAxis dataKey="month" axisLine={false} tickLine={false} />
-                  <Bar dataKey="projects" fill="var(--color-projects)" radius={[4, 4, 0, 0]} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                </BarChart>
-              </ChartContainer>
-            </CardContent>
-          </Card>
-
-          <div className="grid grid-cols-1 gap-6">
-            <Card className="border-border/50 shadow-sm rounded-2xl bg-gradient-to-br from-primary/10 to-background">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Facturación Anual</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold font-headline">$12.450.000.-</div>
-                <p className="text-xs text-muted-foreground mt-1">Crecimiento del +18% vs 2023</p>
-              </CardContent>
-            </Card>
-            <Card className="border-border/50 shadow-sm rounded-2xl bg-card">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-red-500">Mantenimientos Vencidos</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold font-headline text-red-500">2</div>
-                <p className="text-xs text-muted-foreground mt-1">Requieren acción inmediata</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Project List */}
-        <Card className="border-border/50 shadow-2xl rounded-2xl overflow-hidden bg-card/80 backdrop-blur-xl">
-          <CardHeader className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border/50">
-            <div>
-              <CardTitle className="font-headline text-xl">Gestión de Proyectos</CardTitle>
-              <CardDescription>Monitorea el avance y usa la IA para informar a tus clientes.</CardDescription>
+      <main className="flex-1 container pt-32 pb-20 px-4 md:px-8 max-w-2xl mx-auto">
+        <Card className="border-border/50 shadow-xl rounded-2xl">
+          <CardHeader className="flex flex-row items-center gap-4">
+            <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+              {icon}
             </div>
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Buscar por cliente o proyecto..." 
-                  className="pl-10 w-[200px] md:w-[350px] rounded-xl h-11"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-            </div>
+            <CardTitle className="font-headline text-2xl">{title}</CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
-            <Table>
-              <TableHeader className="bg-muted/50">
-                <TableRow>
-                  <TableHead className="font-bold py-4">Proyecto / Cliente</TableHead>
-                  <TableHead className="text-center font-bold">Estado</TableHead>
-                  <TableHead className="font-bold">Avance</TableHead>
-                  <TableHead className="font-bold">Mantenimiento</TableHead>
-                  <TableHead className="text-right font-bold pr-6">Acciones IA & Link</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {projects.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.client.toLowerCase().includes(searchTerm.toLowerCase())).map((project) => (
-                  <TableRow key={project.id} className="hover:bg-muted/20 transition-colors">
-                    <TableCell className="py-5">
-                      <div className="flex flex-col">
-                        <span className="font-bold text-base">{project.name}</span>
-                        <span className="text-xs text-muted-foreground">{project.client} · {project.type}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-center">
-                      <Badge className={
-                        project.status === 'active' ? 'bg-green-500/10 text-green-600 border-green-200' :
-                        'bg-blue-500/10 text-blue-600 border-blue-200'
-                      }>
-                        {project.status === 'active' ? 'Activo' : 'En Construcción'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="min-w-[160px]">
-                      <div className="space-y-1.5">
-                        <div className="flex justify-between text-[10px] font-bold">
-                          <span>{project.progress}%</span>
-                          <span className="text-muted-foreground uppercase">{project.currentStep}</span>
-                        </div>
-                        <Progress value={project.progress} className="h-1.5" />
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2 text-sm">
-                        <Calendar className="h-4 w-4 text-muted-foreground" />
-                        <span className="font-medium">{project.maintenance}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right pr-6">
-                      <div className="flex justify-end gap-2">
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          className="rounded-xl border-primary/20 hover:bg-primary/5 group"
-                          onClick={() => handleGenerateReport(project)}
-                          disabled={isGenerating === project.id}
-                        >
-                          <Sparkles className={`h-4 w-4 mr-2 ${isGenerating === project.id ? 'animate-spin' : 'text-primary'}`} />
-                          {isGenerating === project.id ? 'Redactando...' : 'Reporte IA'}
-                        </Button>
-                        <Button variant="ghost" size="icon" className="rounded-xl" asChild>
-                          <a href={`/seguimiento/${project.id}`} title="Ver como cliente">
-                            <ExternalLink className="h-4 w-4" />
-                          </a>
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+          <CardContent className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+            {children}
           </CardContent>
         </Card>
-
       </main>
       <Footer />
     </div>
   );
 }
 
+export default async function AdminPage() {
+  if (!isDatabaseConfigured) {
+    return (
+      <SetupCard icon={<Database className="h-6 w-6 text-primary" />} title="Falta conectar la base">
+        <p>
+          El panel lee los proyectos desde Supabase y todavía no hay credenciales configuradas en
+          este entorno.
+        </p>
+        <ol className="list-decimal space-y-2 pl-5">
+          <li>
+            Crea el proyecto en supabase.com y corre <Code>supabase/schema.sql</Code> en su SQL
+            Editor.
+          </li>
+          <li>
+            Copia en las variables de entorno <Code>NEXT_PUBLIC_SUPABASE_URL</Code>,{' '}
+            <Code>NEXT_PUBLIC_SUPABASE_ANON_KEY</Code> y <Code>SUPABASE_SERVICE_ROLE_KEY</Code>.
+          </li>
+          <li>Reinicia el servidor.</li>
+        </ol>
+        <p className="text-xs">
+          La service_role key nunca lleva prefijo NEXT_PUBLIC: si lo llevara, quedaría expuesta en
+          el navegador.
+        </p>
+      </SetupCard>
+    );
+  }
+
+  const data = await loadAdminData();
+
+  if (!data.ok) {
+    // Distinto de "no hay proyectos": la consulta fallo. Mostrarlo como panel
+    // vacio haria buscar el problema en el lugar equivocado.
+    return (
+      <SetupCard
+        icon={<TriangleAlert className="h-6 w-6 text-primary" />}
+        title={data.reason === 'missing-tables' ? 'Faltan las tablas' : 'No se pudo leer la base'}
+      >
+        {data.reason === 'missing-tables' ? (
+          <>
+            <p>
+              Las credenciales de Supabase funcionan, pero el esquema todavía no está creado: no
+              existen las tablas <Code>clients</Code>, <Code>projects</Code> y{' '}
+              <Code>project_steps</Code>.
+            </p>
+            <p>
+              Abre el <strong>SQL Editor</strong> del proyecto en supabase.com, pega el contenido
+              completo de <Code>supabase/schema.sql</Code> y ejecútalo. Se puede correr las veces
+              que haga falta sin romper nada.
+            </p>
+          </>
+        ) : (
+          <p>Supabase respondió con un error al consultar los proyectos.</p>
+        )}
+        <p className="rounded-xl border border-border/50 bg-muted/50 p-3 font-mono text-xs">
+          {data.message}
+        </p>
+      </SetupCard>
+    );
+  }
+
+  const { projects, clients, stepsByProject } = data;
+  const currentYear = new Date().getFullYear();
+  const summary = {
+    chart: buildChart(projects),
+    revenueYear: projects
+      .filter((p) => p.payment === 'paid' && new Date(p.created_at).getFullYear() === currentYear)
+      .reduce((total, p) => total + (p.amount_clp ?? 0), 0),
+    overdueMaintenance: projects.filter((p) => isMaintenanceOverdue(p.maintenance_until)).length,
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen bg-muted/20">
+      <Header />
+      {/* pt-32: el Header es `fixed top-0`, asi que el contenido tiene que
+          empezar por debajo o el titulo se le monta encima. Mismo valor que
+          usa /portafolio-web. */}
+      <main className="flex-1 container pt-32 pb-10 px-4 md:px-8 max-w-7xl mx-auto">
+        <AdminDashboard
+          projects={projects}
+          clients={clients}
+          stepsByProject={stepsByProject}
+          summary={summary}
+        />
+      </main>
+      <Footer />
+    </div>
+  );
+}
