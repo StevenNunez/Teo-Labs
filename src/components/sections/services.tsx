@@ -124,7 +124,10 @@ export default function ServicesSection() {
   const showsSubPlans = hoveredService === 'ecommerce' || expandedService === 'ecommerce';
 
   return (
-    <section id="services" className="relative py-20 md:py-28 bg-white/[0.02] overflow-hidden">
+    // `bg-surface`, no `bg-white/[0.02]`: el tinte de seccion en blanco al 2%
+    // sobre fondo claro es blanco sobre blanco, o sea nada. El token existe en
+    // los dos temas y hace lo mismo en cada uno (levanta la seccion del fondo).
+    <section id="services" className="relative py-20 md:py-28 bg-surface overflow-hidden">
       <div className="container relative z-10 px-4 md:px-6">
         <SectionHeading
           eyebrow="Servicios"
@@ -133,7 +136,7 @@ export default function ServicesSection() {
         />
 
         {/* ---------------- Carril 1: presencia digital ---------------- */}
-        <div className="mb-8 border-t border-white/10 pt-6">
+        <div className="mb-8 border-t border-border pt-6">
           <h3 className="font-headline text-2xl md:text-3xl font-bold tracking-tight">Presencia digital</h3>
           <p className="text-muted-foreground">
             Precio de lista, sin reuniones previas. Entregamos y quedas andando.
@@ -261,7 +264,11 @@ export default function ServicesSection() {
         </div>
 
         {/* ---------------- Carril 2: software a medida ---------------- */}
-        <div className="mt-16 rounded-panel bg-ink p-8 md:p-14 text-white overflow-hidden relative">
+        {/* `dark`: el panel es oscuro en los dos temas, asi que sus tokens
+            tambien tienen que serlo (ver la nota en idea-validator.tsx). Aca lo
+            que corrige es el azul — `--primary` del tema claro es siete puntos
+            mas oscuro y sobre este negro pierde legibilidad en los iconos. */}
+        <div className="dark mt-16 rounded-panel bg-ink p-8 md:p-14 text-white overflow-hidden relative">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,#2563EB25,transparent_55%)]" />
 
           <div className="relative grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-start">

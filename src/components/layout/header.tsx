@@ -35,7 +35,7 @@ export default function Header() {
       <div className={cn(
         "container flex h-16 max-w-7xl items-center justify-between px-6 rounded-2xl transition-all duration-500",
         scrolled 
-          ? "bg-surface/80 backdrop-blur-2xl border border-white/10" 
+          ? "bg-surface/80 backdrop-blur-2xl border border-border"
           : "bg-transparent border-transparent"
       )}>
         

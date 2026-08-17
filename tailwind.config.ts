@@ -1,4 +1,10 @@
 import type {Config} from 'tailwindcss';
+// Import ESM, no `require()`. Este archivo tiene `import` arriba, asi que Node
+// lo carga como modulo ESM y ahi `require` no existe: con la cache de `.next`
+// caliente no se nota, pero en el primer compilado en frio (o despues de un
+// build) el dev server se cae con "ReferenceError: require is not defined" y
+// la pagina responde 500.
+import tailwindcssAnimate from 'tailwindcss-animate';
 
 export default {
   darkMode: ['class'],
@@ -108,5 +114,5 @@ export default {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [tailwindcssAnimate],
 } satisfies Config;

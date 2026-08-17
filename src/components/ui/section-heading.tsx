@@ -39,8 +39,14 @@ export default function SectionHeading({
 }) {
   return (
     <div className={cn('mb-14 md:mb-20', className)}>
-      <div className="border-t border-white/10 pt-4">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/40">
+      {/* Tokens del tema, no `white/`. El rotulo y su hairline estaban escritos
+          en `text-white/40` y `border-white/10`: sobre el fondo oscuro se leian
+          bien, pero en tema claro son blanco sobre blanco — el "Nosotros",
+          "Servicios", "Proyectos" de cada seccion desaparecia y el titular
+          quedaba flotando sin su linea. `muted-foreground` y `border` estan
+          definidos en los dos temas (globals.css) y contrastan en ambos. */}
+      <div className="border-t border-border pt-4">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">
           {eyebrow}
         </span>
       </div>

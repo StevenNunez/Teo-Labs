@@ -37,7 +37,12 @@ export default function AboutSection() {
   return (
     <section id="about" className="relative py-20 md:py-28 overflow-hidden">
       <div className="container px-4 md:px-6 relative z-10">
-        <div className="grid items-center gap-16 lg:grid-cols-2 lg:gap-24">
+        {/* items-start, no items-center: desde que el panel de la derecha
+            calcula su alto por contenido (537px) y la columna de texto mide
+            909px, centrarlo lo empujaba 186px hacia abajo y su borde superior
+            quedaba flotando por debajo del titulo. Alineados por arriba, el
+            panel y el "Nosotros" arrancan en la misma linea. */}
+        <div className="grid items-start gap-16 lg:grid-cols-2 lg:gap-24">
           
           <div className="space-y-10">
             <SectionHeading
@@ -71,7 +76,13 @@ export default function AboutSection() {
           </div>
 
           <div className="relative">
-            <div className="relative aspect-[4/3] lg:aspect-[4/5] rounded-panel overflow-hidden border border-border/50">
+            {/* Sin aspect ratio fijo: el alto lo manda el contenido.
+                Antes era `aspect-[4/3] lg:aspect-[4/5]`, que calculaba el alto
+                desde el ancho ignorando lo que hay adentro. En escritorio daba
+                ~768px para ~500px de contenido (215px muertos arriba y abajo),
+                y en movil al reves: 257px de caja para 330px de contenido, que
+                el overflow-hidden recortaba. */}
+            <div className="relative rounded-panel overflow-hidden border border-border/50">
               <StackVisual />
 
               <div className="absolute bottom-6 left-6 right-6 p-5 rounded-3xl border border-white/10 bg-white/[0.07] backdrop-blur-xl flex items-center gap-4">

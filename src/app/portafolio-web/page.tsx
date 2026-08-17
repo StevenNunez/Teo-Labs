@@ -244,11 +244,7 @@ function RealProjectCard({ project }: { project: Project }) {
           ))}
         </div>
 
-        {project.logo && (
-          <span className="mb-3 inline-flex h-12 w-fit items-center rounded-xl bg-white px-3 ring-1 ring-black/5">
-            <ProjectLogo project={project} height={32} fit className="mb-0 max-w-[170px]" />
-          </span>
-        )}
+        <ProjectLogo project={project} className="mb-3 block h-12 w-24 rounded-xl" />
 
         <h3 className="mb-3 font-headline text-2xl font-bold leading-none transition-colors group-hover:text-primary">
           {project.name}

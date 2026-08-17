@@ -36,11 +36,16 @@ const LAYERS = [
 
 export default function StackVisual() {
   return (
-    <div className="relative h-full w-full overflow-hidden bg-ink p-8 md:p-10">
+    // `dark` por la misma razon que en idea-validator.tsx: el panel es oscuro en
+    // los dos temas y `text-primary` tiene que resolver al azul del tema oscuro.
+    <div className="dark relative w-full overflow-hidden bg-ink p-8 md:p-10">
       {/* Resplandor de marca y grilla tecnica */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,#2563EB30,transparent_55%),radial-gradient(circle_at_85%_100%,#22C55E20,transparent_55%)]" />
 
-      <div className="relative flex h-full flex-col justify-center gap-3">
+      {/* pb-24 reserva el hueco de la tarjeta "Resultados Reales", que va
+          posicionada absoluta encima (ver about.tsx). Sin esto se montaria
+          sobre la ultima capa ahora que el alto lo define el contenido. */}
+      <div className="relative flex flex-col gap-3 pb-24">
         <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/35">
           Lo que construimos
         </p>

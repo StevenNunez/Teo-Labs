@@ -28,6 +28,14 @@ export type Project = {
    * Logo de la empresa/producto, en /public/logos. Se muestra sobre el nombre
    * tanto en el indice de la home como en la tarjeta del portafolio. Es
    * opcional: si falta, queda solo el nombre y nada se rompe.
+   *
+   * Convencion para agregar uno nuevo: PNG de 640x320 (2:1), con el fondo de la
+   * marca cubriendo todo el lienzo y el logo centrado ocupando ~40% del area.
+   * No es capricho — se renderizan como placas del mismo tamano, asi que el
+   * margen que trae el archivo ES el tamano que se ve en pantalla. Los que
+   * llegaron como captura de pantalla (marca al 26% del lienzo) se veian a un
+   * tercio del resto hasta que se reencuadraron. Nombre en kebab-case y en
+   * minusculas: el deploy corre sobre un filesystem sensible a mayusculas.
    */
   logo?: string;
   tags: string[];
@@ -74,6 +82,7 @@ export const PROJECTS: Project[] = [
     description:
       'E-commerce de frutas y verduras con delivery el mismo día en La Serena, Coquimbo y Las Compañías, con pagos por Mercado Pago y transferencia.',
     url: 'https://www.fruto.app/',
+    logo: '/logos/fruto.png',
     tags: ['E-commerce', 'Delivery', 'Mercado Pago'],
     kind: 'producto',
     featured: true,
@@ -84,6 +93,7 @@ export const PROJECTS: Project[] = [
     description:
       'Plataforma SaaS para food trucks: menú digital por QR, pedidos en tiempo real y control de stock e inventario.',
     url: 'https://ape.teolabs.app/',
+    logo: '/logos/hungry-ape.png',
     tags: ['SaaS', 'QR', 'Gastronomía'],
     kind: 'producto',
     featured: true,
@@ -105,6 +115,7 @@ export const PROJECTS: Project[] = [
     description:
       'App para conductores de aplicación: registro de ingresos diarios, control de gastos y metas financieras mensuales.',
     url: 'https://monty.teolabs.app/',
+    logo: '/logos/monty.png',
     tags: ['App', 'Finanzas personales'],
     kind: 'producto',
   },

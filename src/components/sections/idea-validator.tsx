@@ -37,7 +37,17 @@ export default function IdeaValidator() {
   };
 
   return (
-    <section id="ai-consultant" className="relative py-20 md:py-28 overflow-hidden bg-ink text-white">
+    // La clase `dark` no es decorativa: esta seccion fuerza fondo oscuro en los
+    // dos temas, y `.dark` en globals.css redefine las variables CSS para todo
+    // el subarbol. Sin esto, cualquier hijo que use un token del tema (el rotulo
+    // de SectionHeading, `text-primary`) toma el valor del tema CLARO —gris
+    // oscuro— y queda a 3.2:1 sobre el negro. Con la clase, los tokens de este
+    // bloque son siempre los oscuros, sin importar el tema que eligio el
+    // visitante.
+    <section
+      id="ai-consultant"
+      className="dark relative py-20 md:py-28 overflow-hidden bg-ink text-white"
+    >
       {/* Background Decor */}
 
       <div className="container relative z-10 px-4 md:px-6">

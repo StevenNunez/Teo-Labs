@@ -43,18 +43,15 @@ export default function ClientsSection() {
               rel="noopener noreferrer"
               className="group flex flex-col items-center gap-1.5 text-center"
             >
-              {/* Caja blanca fija para todos: los logos vienen unos sobre fondo
-                  claro (Plumber, Recarp) y otros sobre oscuro (Valar,
-                  Irarrazaval), asi que sin un fondo comun la mitad desaparece
-                  al cambiar de tema. */}
-              <span className="mb-3 flex h-24 w-full items-center justify-center rounded-2xl bg-white px-5 ring-1 ring-black/5 transition-transform group-hover:-translate-y-0.5">
-                <ProjectLogo
-                  project={client}
-                  height={56}
-                  fit
-                  className="mb-0 max-w-full object-center"
-                />
-              </span>
+              {/* La placa es la imagen misma: cada logo trae su propio fondo de
+                  marca en un lienzo 2:1 comun, asi que la franja se ve pareja
+                  sin imponer un blanco que a las marcas oscuras (Valar,
+                  Irarrazaval) les dejaba un rectangulo flotando adentro. */}
+              <ProjectLogo
+                project={client}
+                sizes="(min-width: 1024px) 20vw, 45vw"
+                className="mb-3 h-auto w-full rounded-2xl transition-transform group-hover:-translate-y-0.5"
+              />
 
               <span className="font-headline text-lg md:text-xl font-bold tracking-tight text-foreground/80 transition-colors group-hover:text-foreground">
                 {client.company ?? client.name}
