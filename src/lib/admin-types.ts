@@ -74,6 +74,9 @@ export const PROJECT_TYPES = [
   'E-commerce',
   'App Web',
   'ERP',
+  'Agente IA',
+  'CRM',
+  // Ya no se ofrecen en el wizard, pero puede haber proyectos cargados con ellos.
   'Automatización IA',
   'Mantenimiento',
 ] as const;

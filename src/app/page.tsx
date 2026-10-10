@@ -1,18 +1,28 @@
-'use client';
-
-import React from 'react';
+import type { Metadata } from 'next';
 import Header from '@/components/layout/header';
 import HeroSection from '@/components/sections/hero';
 import ClientsSection from '@/components/sections/clients';
 import Marquee from '@/components/sections/marquee';
 import AboutSection from '@/components/sections/about';
 import ServicesSection from '@/components/sections/services';
+import AgentsSection from '@/components/sections/agents';
 import IdeaValidator from '@/components/sections/idea-validator';
 import ProjectsSection from '@/components/sections/projects';
 import TestimonialsSection from '@/components/sections/testimonials';
 import ContactSection from '@/components/sections/contact';
 import Footer from '@/components/layout/footer';
 import SplashScreen from '@/components/layout/splash-screen';
+
+/**
+ * Sin 'use client': la pagina solo compone secciones, y cada una que necesita
+ * el navegador ya lo declara. Asi puede exportar su propia metadata, y el
+ * canonical "/" vive aca y no en el layout raiz, desde donde se heredaba a
+ * TODAS las rutas: portafolio, demos y legales le decian a Google que eran una
+ * copia de la home, y Google las dejaba fuera del indice.
+ */
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
 
 export default function Home() {
   return (
@@ -35,6 +45,7 @@ export default function Home() {
         <Marquee />
         <AboutSection />
         <ServicesSection />
+        <AgentsSection />
         <IdeaValidator />
         <ProjectsSection />
         {/* Se auto-oculta mientras no haya testimonios reales cargados. */}

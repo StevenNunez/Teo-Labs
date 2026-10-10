@@ -11,6 +11,6 @@ export const SITE_URL = 'https://teolabs.app';
 export const SITE_NAME = 'Teo Labs';
 
 export const SITE_DESCRIPTION =
-  'Desarrollo de software a medida para pymes y startups. Aplicaciones web, ' +
-  'e-commerce, apps móviles y automatización de procesos con inteligencia artificial. ' +
+  'Desarrollo de software a medida para pymes y startups: agentes de IA, CRM, ERP, ' +
+  'aplicaciones web, e-commerce, apps móviles y automatización de procesos. ' +
   'La Serena, Chile.';

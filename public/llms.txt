@@ -3,19 +3,33 @@
 > Software house chilena que desarrolla software a medida para pymes y startups.
 > Con base en La Serena, Región de Coquimbo, y servicio a todo Chile.
 
-Teo Labs construye código propio, sin plantillas: aplicaciones web, tiendas
-online, aplicaciones móviles, automatización de procesos e integración de
-inteligencia artificial. El foco está en pymes y startups que necesitan
+Teo Labs construye código propio, sin plantillas: agentes de inteligencia
+artificial, CRM, ERP, aplicaciones web, tiendas online, aplicaciones móviles y
+automatización de procesos. El foco está en pymes y startups que necesitan
 digitalizar o escalar su operación.
 
 ## Servicios
+
+- **Agentes de IA a medida**: agentes de atención y de ventas por WhatsApp,
+  correo y web, asistentes internos que responden con los datos de la empresa
+  y automatización de back-office. Cotización según requerimientos.
+- **CRM a medida**: embudo de ventas con etapas propias, historial por cliente,
+  recordatorios de seguimiento y reportes, integrado con el agente.
 
 - **Webs corporativas**: sitios de presencia digital con diseño responsive,
   hosting, correos corporativos y optimización SEO base.
 - **E-commerce**: tiendas online en tres niveles, desde carrito y gestión de
   productos hasta multivendedor, chat en vivo y PWA.
-- **Software y apps a medida**: ERP, CRM, aplicaciones móviles iOS y Android,
+- **Software y apps a medida**: ERP, aplicaciones móviles iOS y Android,
   integración de APIs y automatización con IA. Cotización según requerimientos.
+
+## Productos en producción
+
+- PAGNOL (https://www.pagnol.cl/): ERP de gestión de activos para faenas mineras y de construcción.
+- Gestión de Obras (https://www.gestiondeobras.app/): control operativo para constructoras.
+- Control de Obra (https://ferroactiva.teolabs.app/): control de obra con asistente de IA, operando en FerroActiva.
+- Fruto (https://www.fruto.app/): e-commerce con delivery el mismo día en La Serena y Coquimbo.
+- Hungry Ape (https://ape.teolabs.app/): SaaS de menú QR y pedidos para food trucks.
 
 ## Enlaces
 

@@ -37,14 +37,19 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  alternates: {
-    // El sitio responde igual en teolabs.app y www.teolabs.app; esto le dice a
-    // Google cual de las dos es la buena, para no repartir el credito entre ambas.
-    canonical: '/',
+  // El canonical NO va aca: lo que se pone en el layout raiz se hereda a todas
+  // las rutas, y un canonical "/" en todas le decia a Google que portafolio,
+  // demos y legales eran copias de la home. Cada pagina declara el suyo.
+  title: {
+    default: 'Teo Labs | Software a medida, agentes de IA y CRM en Chile',
+    // Las paginas internas ponen solo su nombre y esto agrega la marca.
+    template: '%s | Teo Labs',
   },
-  title: 'Teo Labs | Desarrollo de Software a Medida para Pymes y Startups en Chile',
-  description: 'Expertos en desarrollo de aplicaciones web, móviles y automatización de procesos en La Serena y todo Chile. Impulsamos el crecimiento de tu empresa con tecnología de vanguardia.',
+  description: 'Software a medida, agentes de IA, CRM, ERP, tiendas online y webs para pymes de La Serena y todo Chile. Ya corre en faenas, obras y comercios. Respuesta en menos de 48 horas.',
   keywords: [
+    'Agentes de IA para empresas',
+    'CRM a medida Chile',
+    'Chatbot WhatsApp para empresas',
     'Desarrollo de Software Chile',
     'Desarrollo de Aplicaciones La Serena',
     'Software a medida para Pymes',
@@ -62,17 +67,16 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: 'Teo Labs | Desarrollo de Software a Medida en Chile',
-    description: 'Soluciones tecnológicas que transforman tu negocio. Especialistas en Pymes y Startups.',
-    url: 'https://teolabs.app',
+    title: 'Teo Labs | Software a medida, agentes de IA y CRM en Chile',
+    description: 'Software que ya corre en faenas, obras y comercios reales. Agentes de IA, CRM, ERP, tiendas online y webs para pymes chilenas.',
     siteName: 'Teo Labs',
     locale: 'es_CL',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Teo Labs | Soluciones Digitales de Alto Impacto',
-    description: 'Desarrollamos el software que tu empresa necesita para escalar en el mercado actual.',
+    title: 'Teo Labs | Software a medida, agentes de IA y CRM en Chile',
+    description: 'Software que ya corre en faenas, obras y comercios reales. Agentes de IA, CRM, ERP, tiendas online y webs para pymes chilenas.',
   },
   robots: {
     index: true,
@@ -114,11 +118,38 @@ const jsonLd = {
     '@type': 'Country',
     name: 'Chile',
   },
+  // Lo que vendemos, con los mismos precios que la seccion Servicios. Sin
+  // precio donde el sitio dice "cotizacion": inventar uno aca seria peor.
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servicios de Teo Labs',
+    itemListElement: [
+      { name: 'Web corporativa', price: 80000 },
+      { name: 'E-commerce', price: 180000 },
+      { name: 'Agentes de IA a medida' },
+      { name: 'CRM a medida' },
+      { name: 'ERP y sistemas de gestión' },
+      { name: 'Aplicaciones web y móviles a medida' },
+    ].map(({ name, price }) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name },
+      ...(price && {
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          price,
+          priceCurrency: 'CLP',
+          ...(name === 'E-commerce' && { minPrice: price }),
+        },
+      }),
+    })),
+  },
   sameAs: [
     'https://cl.linkedin.com/company/teo-labs',
     'https://github.com/teolabs',
   ],
   knowsAbout: [
+    'Agentes de inteligencia artificial',
+    'CRM a medida',
     'Desarrollo de software a medida',
     'Aplicaciones web',
     'E-commerce',

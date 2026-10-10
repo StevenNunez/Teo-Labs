@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -8,6 +9,13 @@ import { cn } from '@/lib/utils';
 import { PROJECTS, type Project } from '@/lib/projects';
 import ProjectThumb from '@/components/ui/project-thumb';
 import ProjectLogo from '@/components/ui/project-logo';
+
+export const metadata: Metadata = {
+  title: 'Portafolio: ERP, SaaS, agentes de IA y sitios en producción',
+  description:
+    'PAGNOL, Gestión de Obras, Fruto, Hungry Ape y los sitios de Valar, Plumber, Recarp e Irarrázaval: software de Teo Labs funcionando hoy, que puedes abrir y revisar.',
+  alternates: { canonical: '/portafolio-web' },
+};
 
 /**
  * Las demos son maquetas nuestras para mostrar formatos, no trabajos de

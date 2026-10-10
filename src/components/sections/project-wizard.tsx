@@ -6,12 +6,12 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import {
-  Layout,
   Building2,
   ShoppingCart,
   Boxes,
   Brain,
   Smartphone,
+  Users,
   ChevronRight,
   ChevronLeft,
   CheckCircle2,
@@ -59,14 +59,21 @@ const wizardSchema = z.object({
 
 type WizardData = z.infer<typeof wizardSchema>;
 
-/** Las dos primeras filas son presencia digital; las dos ultimas, software. */
+/**
+ * La primera fila es presencia digital; las otras dos, software.
+ *
+ * Agente de IA y CRM tienen opcion propia desde que tienen seccion propia: si
+ * el visitante llega desde "Quiero un agente" y no encuentra esa palabra aca,
+ * duda de si se equivoco de formulario. Landing y web corporativa se juntaron
+ * para hacerles lugar: se cotizan igual y el detalle sale en la llamada.
+ */
 const PROJECT_TYPES = [
-  { id: 'Landing Page', icon: Layout, label: 'Landing page', hint: 'Una página para vender' },
-  { id: 'Web Corporativa', icon: Building2, label: 'Web corporativa', hint: 'Presencia de tu empresa' },
+  { id: 'Web Corporativa', icon: Building2, label: 'Web o landing', hint: 'Presencia de tu empresa' },
   { id: 'E-commerce', icon: ShoppingCart, label: 'E-commerce', hint: 'Tienda con pagos online' },
-  { id: 'App Web', icon: Smartphone, label: 'App web a medida', hint: 'Plataforma propia' },
+  { id: 'Agente IA', icon: Brain, label: 'Agente de IA', hint: 'Atiende y automatiza' },
+  { id: 'CRM', icon: Users, label: 'CRM', hint: 'Clientes y ventas en orden' },
   { id: 'ERP', icon: Boxes, label: 'ERP / Sistema de gestión', hint: 'Inventario, obras, activos' },
-  { id: 'Automatización IA', icon: Brain, label: 'Automatización & IA', hint: 'Procesos que se repiten' },
+  { id: 'App Web', icon: Smartphone, label: 'App web a medida', hint: 'Plataforma propia' },
 ];
 
 /**

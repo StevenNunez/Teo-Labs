@@ -12,6 +12,7 @@ import ThemeToggle from "@/components/layout/theme-toggle";
 const navLinks = [
   { href: "/#about", label: "Nosotros" },
   { href: "/#services", label: "Servicios" },
+  { href: "/#agentes", label: "Agentes IA" },
   { href: "/#ai-consultant", label: "AI Advisor", icon: <Brain className="h-4 w-4 mr-2 text-primary" /> },
   { href: "/portafolio-web", label: "Portafolio", icon: <Globe className="h-4 w-4 mr-2" /> },
   { href: "/#projects", label: "Proyectos" },

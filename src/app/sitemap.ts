@@ -3,17 +3,12 @@ import { SITE_URL } from '@/lib/site-url';
 
 /**
  * Paginas publicas del sitio. Quedan fuera a proposito /admin y /seguimiento/[id],
- * que son internas (ver robots.ts).
+ * que son internas (ver robots.ts), y las /demo, que llevan noindex (ver
+ * src/app/demo/layout.tsx): un sitemap no lista lo que pide no indexar.
  */
 const rutas = [
   { path: '', changeFrequency: 'weekly', priority: 1 },
   { path: '/portafolio-web', changeFrequency: 'weekly', priority: 0.9 },
-  { path: '/demo/boutique', changeFrequency: 'monthly', priority: 0.7 },
-  { path: '/demo/clinica', changeFrequency: 'monthly', priority: 0.7 },
-  { path: '/demo/fitness', changeFrequency: 'monthly', priority: 0.7 },
-  { path: '/demo/inmobiliaria', changeFrequency: 'monthly', priority: 0.7 },
-  { path: '/demo/legal', changeFrequency: 'monthly', priority: 0.7 },
-  { path: '/demo/logistica', changeFrequency: 'monthly', priority: 0.7 },
   { path: '/terminos', changeFrequency: 'yearly', priority: 0.3 },
   { path: '/privacidad', changeFrequency: 'yearly', priority: 0.3 },
 ] as const;

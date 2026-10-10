@@ -1,10 +1,10 @@
 const marqueeItems = [
+  'Agentes de IA',
+  'CRM a medida',
+  'ERP',
   'Software a medida',
-  'Optimización',
-  'IA & automatización',
-  'Startups',
-  'Infraestructura',
-  'Soluciones globales',
+  'E-commerce',
+  'Automatización',
 ];
 
 /**
