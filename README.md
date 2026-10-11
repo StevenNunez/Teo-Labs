@@ -35,7 +35,7 @@ npm run dev            # http://localhost:3000
 ## Variables de entorno
 
 Ver [`.env.example`](.env.example). Las de IA son obligatorias para que funcionen el
-validador de ideas y el generador de reportes; las de Supabase son opcionales
+demo del agente ("Prueba un agente ahora") y el generador de reportes; las de Supabase son opcionales
 (sin ellas el cliente no se inicializa y la app sigue operando).
 
 ## Despliegue

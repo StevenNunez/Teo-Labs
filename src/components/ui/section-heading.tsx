@@ -51,10 +51,17 @@ export default function SectionHeading({
         </span>
       </div>
 
+      {/* `leading-[0.92]` va al final, despues del tamano, y no es capricho:
+          tailwind-merge trata `text-[clamp(...)]` como tamano de letra, y un
+          tamano posterior borra cualquier `leading-*` anterior (en Tailwind un
+          `text-lg` trae su propio interlineado). Con el orden al reves la
+          clase desaparecia del HTML y los seis titulares salian a 1.5: cada
+          renglon flotaba separado del siguiente. */}
       <h2
         className={cn(
-          'mt-6 max-w-[18ch] font-headline font-bold leading-[0.92] tracking-[-0.035em] text-[clamp(2.5rem,6.5vw,7rem)]',
-          titleClassName
+          'mt-6 max-w-[18ch] font-headline font-bold tracking-[-0.035em] text-[clamp(2.5rem,6.5vw,7rem)]',
+          titleClassName,
+          'leading-[0.92]'
         )}
       >
         {title}

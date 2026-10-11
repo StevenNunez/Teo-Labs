@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
-import { Inter, Space_Grotesk } from 'next/font/google';
+import { Inter, Lexend, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { cn } from '@/lib/utils';
 import CookieBanner from '@/components/layout/cookie-banner';
 import WhatsAppButton from '@/components/layout/whatsapp-button';
+import MobileCta from '@/components/layout/mobile-cta';
 import Analytics from '@/components/layout/analytics';
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/site-url';
 
@@ -32,6 +33,20 @@ const spaceGrotesk = Space_Grotesk({
   // Rango real de la familia: 300 a 700. No hay 800 ni 900.
   weight: ['400', '500', '600', '700'],
   variable: '--font-headline',
+  display: 'swap',
+});
+
+/**
+ * La tipografia del nombre "Teo Labs", y solo del nombre: Lexend Bold con el
+ * espaciado apretado (-0.05em). La eligio el usuario el 10-10-2026 a partir de
+ * una muestra; se identifico comparando la muestra contra 40 fuentes (Lexend
+ * calzo letra por letra). Los titulares siguen en Space Grotesk y el texto en
+ * Inter: Lexend es la firma, no la voz.
+ */
+const lexend = Lexend({
+  subsets: ['latin'],
+  weight: ['700'],
+  variable: '--font-wordmark',
   display: 'swap',
 });
 
@@ -89,8 +104,8 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  // Los iconos los genera src/app/icon.tsx a partir del gradiente de marca.
-  // Antes esto apuntaba a /logo.png, un archivo que no existe y devolvia 404.
+  // Iconos por convencion de archivos: src/app/icon.svg (favicon, la Θ con
+  // trazo mas grueso para 16 px) y src/app/apple-icon.png (iPhone, 180 px).
 };
 
 /**
@@ -102,9 +117,16 @@ const jsonLd = {
   '@type': 'ProfessionalService',
   '@id': `${SITE_URL}/#organization`,
   name: SITE_NAME,
+  // Datos del certificado de constitucion (22-09-2026, Ley 20.659).
+  legalName: 'TEO LABS SpA',
+  taxID: '78.518.165-4',
+  foundingDate: '2026-09-22',
   description: SITE_DESCRIPTION,
   url: SITE_URL,
-  email: 'steven@teolabs.app',
+  // La Θ sobre blanco, 512 px: es la que Google muestra junto al nombre.
+  logo: `${SITE_URL}/logo.png`,
+  image: `${SITE_URL}/logo.png`,
+  email: 'hola@teolabs.app',
   telephone: '+56930938222',
   priceRange: '$$',
   slogan: 'Ingenieria de software premium para pymes y startups',
@@ -143,10 +165,9 @@ const jsonLd = {
       }),
     })),
   },
-  sameAs: [
-    'https://cl.linkedin.com/company/teo-labs',
-    'https://github.com/teolabs',
-  ],
+  // Solo perfiles confirmados como nuestros: github.com/teolabs es de otra
+  // persona y no puede figurar como "la misma entidad" ante Google.
+  sameAs: ['https://cl.linkedin.com/company/teo-labs'],
   knowsAbout: [
     'Agentes de inteligencia artificial',
     'CRM a medida',
@@ -170,7 +191,7 @@ export default function RootLayout({
       // Sin clase de tema: el HTML del servidor sale en claro, que es el
       // predeterminado, y el script de arriba agrega `dark` solo si el
       // visitante lo eligio antes.
-      className={cn('!scroll-smooth', inter.variable, spaceGrotesk.variable)}
+      className={cn('!scroll-smooth', inter.variable, spaceGrotesk.variable, lexend.variable)}
       suppressHydrationWarning
     >
       <head>
@@ -197,6 +218,7 @@ export default function RootLayout({
         <Toaster />
         <CookieBanner />
         <WhatsAppButton />
+        <MobileCta />
         <Analytics />
       </body>
     </html>

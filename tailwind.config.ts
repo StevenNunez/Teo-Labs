@@ -22,9 +22,14 @@ export default {
       },
     },
     extend: {
+      letterSpacing: {
+        wordmark: '-0.05em',
+      },
       fontFamily: {
         body: ['var(--font-body)', 'system-ui', 'sans-serif'],
         headline: ['var(--font-headline)', 'var(--font-body)', 'sans-serif'],
+        // El nombre "Teo Labs" (Lexend Bold). Usar siempre con `tracking-wordmark`.
+        wordmark: ['var(--font-wordmark)', 'var(--font-headline)', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -63,6 +68,14 @@ export default {
         // Las tres superficies del ritmo de pagina (ver globals.css).
         canvas: 'hsl(var(--canvas))',
         surface: 'hsl(var(--surface))',
+        // Paleta Cielo de Elqui (globals.css): blue = cobalto, purple = nebulosa,
+        // green = el punto de la Θ, night = la noche. Ej.: `bg-brand-green/10`.
+        brand: {
+          blue: 'hsl(var(--brand-blue) / <alpha-value>)',
+          purple: 'hsl(var(--brand-purple) / <alpha-value>)',
+          green: 'hsl(var(--brand-green) / <alpha-value>)',
+          night: 'hsl(var(--brand-night) / <alpha-value>)',
+        },
         ink: {
           DEFAULT: 'hsl(var(--ink))',
           muted: 'hsl(var(--ink-muted))',

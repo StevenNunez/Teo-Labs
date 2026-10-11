@@ -34,36 +34,46 @@
    */
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 8%;
+    --foreground: 229 55% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 8%;
+    --card-foreground: 229 55% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 8%;
-    /* Azul ApeChain: #0054FA = rgb(0,84,250). Muestreado del sitio real, donde
-       aparece 60 veces. Es el mismo tono que teniamos (220 vs 221) pero a
-       saturacion 100% en vez de 83%: por eso se lee electrico y no corporativo. */
-    --primary: 220 100% 49%;
+    --popover-foreground: 229 55% 10%;
+    /* Marca Teo Labs: paleta "Cielo de Elqui", elegida el 2026-10-10 junto con
+       el signo (la Θ, ver components/ui/brand-mark.tsx). La Region de Coquimbo
+       es capital astronomica: un mundo bajo ese cielo. Cobalto y nebulosa
+       pintan el mundo; el verde es el punto del laboratorio, el acento.
+       Reemplaza al azul-morado-verde de antes, que salio de una sugerencia de
+       Gemini. Los nombres de las variables quedan (blue/purple/green) para no
+       tocar cada uso. */
+    --brand-blue: 232 100% 59%;   /* cobalto  #2F4BFF */
+    --brand-purple: 257 100% 68%; /* nebulosa #8A5CFF */
+    --brand-green: 142 71% 45%;   /* verde    #22C55E */
+    --brand-night: 229 55% 10%;   /* noche    #0B1026 */
+
+    --primary: var(--brand-blue);
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 12% 96%;
-    --secondary-foreground: 240 10% 8%;
-    --muted: 240 12% 96%;
-    --muted-foreground: 240 5% 42%;
-    --accent: 240 12% 96%;
-    --accent-foreground: 240 10% 8%;
+    --secondary: 230 40% 96%;
+    --secondary-foreground: 229 55% 10%;
+    --muted: 230 40% 96%;
+    --muted-foreground: 230 10% 40%;
+    --accent: 230 40% 96%;
+    --accent-foreground: 229 55% 10%;
     --destructive: 0 72% 48%;
     --destructive-foreground: 0 0% 100%;
-    --border: 240 10% 89%;
-    --input: 240 10% 89%;
-    --ring: 220 100% 49%;
+    --border: 230 20% 89%;
+    --input: 230 20% 89%;
+    --ring: var(--brand-blue);
 
     --canvas: 0 0% 100%;
-    --surface: 240 20% 97%;
-    --ink: 240 7% 9%;
-    --ink-muted: 240 7% 13%;
+    --surface: 230 45% 97%;  /* papel #F5F6FB */
+    /* Los paneles oscuros (en los dos temas) son la noche de Elqui. */
+    --ink: var(--brand-night);
+    --ink-muted: 229 42% 14%;
 
     /* Atmosfera: mismo resplandor de marca, ajustado para fondo claro. */
-    --glow-a: 220 100% 49% / 0.10;
-    --glow-b: 220 100% 49% / 0.05;
+    --glow-a: 232 100% 59% / 0.10;
+    --glow-b: 232 100% 59% / 0.05;
 
     /* Bordes rectos: el radio blando de 2rem era lo que hacia que todo se
        viera amable en vez de audaz. */
@@ -72,43 +82,38 @@
   }
 
   .dark {
-    /* Carbon suave, no negro. A 4% de luminosidad el fondo era practicamente
-       #0A0A0B: duro, y los bordes entre secciones se comian entre si porque no
-       habia diferencia entre "fondo" y "nada". A 9% sigue siendo claramente
-       oscuro pero tiene cuerpo, y deja lugar para que los paneles a 13% se
-       despeguen sin necesidad de bordes fuertes. */
-    --background: 240 7% 9%;
+    /* Noche de Elqui: azul muy profundo y no negro neutro. Antes el oscuro era
+       carbon casi neutro para no pelear con el degradado azul-morado-verde; con
+       la paleta nueva el fondo ES parte de la marca (el cielo detras del mundo). */
+    --background: 229 55% 10%;
     --foreground: 0 0% 100%;
-    --card: 240 7% 13%;
+    --card: 229 42% 14%;
     --card-foreground: 0 0% 100%;
-    --popover: 240 7% 13%;
+    --popover: 229 42% 14%;
     --popover-foreground: 0 0% 100%;
-    /* Un punto mas claro que el #2563EB de marca: sobre oscuro, el azul del
-       logo pierde legibilidad en texto y bordes. El gradiente del wordmark
-       conserva el valor original. */
-    /* Mismo azul ApeChain, siete puntos mas claro: sobre fondo oscuro el 49%
-       original pierde legibilidad en texto, bordes e iconos. */
-    --primary: 220 100% 56%;
+    /* Cobalto un paso mas claro (#4D66FF): el #2F4BFF sobre la noche da 3.2:1
+       en texto y enlaces; este llega a ~4.3:1 sobre la noche y con texto blanco. */
+    --primary: 232 100% 65%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 7% 16%;
+    --secondary: 229 32% 18%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 240 7% 16%;
-    --muted-foreground: 0 0% 64%;
-    --accent: 240 7% 16%;
+    --muted: 229 32% 18%;
+    --muted-foreground: 228 15% 70%;
+    --accent: 229 32% 18%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 72% 58%;
     --destructive-foreground: 0 0% 100%;
-    --border: 240 7% 20%;
-    --input: 240 7% 20%;
-    --ring: 220 100% 56%;
+    --border: 229 28% 22%;
+    --input: 229 28% 22%;
+    --ring: 232 100% 65%;
 
-    --canvas: 240 7% 9%;
-    --surface: 240 7% 13%;
-    --ink: 240 7% 9%;
-    --ink-muted: 240 7% 13%;
+    --canvas: 229 55% 10%;
+    --surface: 229 42% 14%;
+    --ink: var(--brand-night);
+    --ink-muted: 229 42% 14%;
 
-    --glow-a: 220 100% 56% / 0.18;
-    --glow-b: 220 100% 56% / 0.08;
+    --glow-a: 232 100% 65% / 0.18;
+    --glow-b: 232 100% 65% / 0.08;
   }
 }
 
@@ -217,19 +222,19 @@
 }
 
 .splash-letters [aria-hidden='true'] > span {
-  animation: splashLetterIn 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: splashLetterIn 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* 170ms entre letra y letra: es el ritmo que hace que se lea como un
-   acercamiento y no como un parpadeo colectivo. */
-.splash-letters [aria-hidden='true'] > span:nth-child(1) { animation-delay: 300ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(2) { animation-delay: 470ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(3) { animation-delay: 640ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(4) { animation-delay: 810ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(5) { animation-delay: 980ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(6) { animation-delay: 1150ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(7) { animation-delay: 1320ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(8) { animation-delay: 1490ms; }
+/* 70ms entre letra y letra (antes 170ms, con un splash de 2,9s). Sigue
+   leyendose como un acercamiento de a una y el total baja a ~1,4s. */
+.splash-letters [aria-hidden='true'] > span:nth-child(1) { animation-delay: 120ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(2) { animation-delay: 190ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(3) { animation-delay: 260ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(4) { animation-delay: 330ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(5) { animation-delay: 400ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(6) { animation-delay: 470ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(7) { animation-delay: 540ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(8) { animation-delay: 610ms; }
 
 @media (prefers-reduced-motion: reduce) {
   .splash-letters [aria-hidden='true'] > span {
@@ -248,3 +253,34 @@
 
 /* `.glass-card` se elimino: su unico uso estaba en la tarjeta sobre la foto de
    "Nosotros", y esa foto ya no existe. Cero referencias en el codigo. */
+/*
+ * El degradado de marca, uno solo para todo el sitio: cobalto -> nebulosa,
+ * el mismo del mundo en la Θ. El verde no entra al degradado: es el punto, el
+ * acento que se usa solo (un estado "en linea", un detalle).
+ *
+ * Habia cuatro versiones (blue-500/purple-400/emerald-400 en el hero,
+ * purple-600 en contacto y splash, green-400 en las miniaturas...), y ninguna
+ * era exactamente la del logo. Estos son los mismos tres colores del
+ * InteractiveLogo. Para usarlo: `bg-brand-gradient` en fondos y franjas,
+ * `text-brand-gradient` en una palabra destacada.
+ */
+@layer utilities {
+  .bg-brand-gradient {
+    background-image: linear-gradient(
+      90deg,
+      hsl(var(--brand-blue)),
+      hsl(var(--brand-purple))
+    );
+  }
+
+  .text-brand-gradient {
+    background-image: linear-gradient(
+      90deg,
+      hsl(var(--brand-blue)),
+      hsl(var(--brand-purple))
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}

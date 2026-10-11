@@ -48,8 +48,11 @@ export default function AboutSection() {
             <SectionHeading
               className="mb-0"
               eyebrow="Nosotros"
-              title="Impulsamos tu visión de negocio"
-              lead="En Teo Labs no solo escribimos código: diseñamos el motor que escalará tu empresa. Entendemos los desafíos locales y los enfrentamos con soluciones de clase mundial."
+              // El mejor argumento de la marca, al frente: antes de hacer
+              // software para otros, lo hicimos y lo operamos para nosotros.
+              // Antes el titulo era "Impulsamos tu vision de negocio".
+              title="Primero lo hicimos para nosotros"
+              lead="Somos una software house de La Serena. Antes de hacer software para otros, construimos y operamos nuestras propias plataformas, con usuarios reales. Esa experiencia es la que ponemos en tu empresa, con un solo equipo de la primera reunión a producción."
             />
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
@@ -68,7 +71,7 @@ export default function AboutSection() {
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg" className="h-14 px-10 rounded-2xl bg-primary text-white font-bold group">
                 <Link href="#contact">
-                  Hablemos de tu Proyecto
+                  Cotizar proyecto
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
@@ -90,8 +93,11 @@ export default function AboutSection() {
                   <Zap className="h-6 w-6 fill-current" />
                 </div>
                 <div className="space-y-1">
-                  <p className="font-bold text-white text-base font-headline leading-none">Resultados Reales</p>
-                  <p className="text-white/50 text-[11px] font-medium uppercase tracking-widest">Impacto en el balance final</p>
+                  {/* Antes: "Resultados reales / Impacto en el balance final",
+                      una promesa sin nada que la respalde. Esto es lo que de
+                      verdad cierra la pila de capas de arriba. */}
+                  <p className="font-bold text-white text-base font-headline leading-none">Un solo equipo</p>
+                  <p className="text-white/50 text-[11px] font-medium uppercase tracking-widest">De la primera reunión a producción</p>
                 </div>
               </div>
             </div>

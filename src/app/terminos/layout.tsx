@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 
-// La pagina es 'use client' y no puede exportar metadata: va en su layout.
 export const metadata: Metadata = {
-  title: 'Términos de Servicio',
-  description: 'Condiciones de uso del sitio y de los servicios de desarrollo de software de Teo Labs.',
+  title: 'Términos de uso',
+  description: 'Condiciones de uso de teolabs.app: precios de referencia, cotizaciones, agente de IA de demostración y propiedad intelectual.',
   alternates: { canonical: '/terminos' },
 };
 

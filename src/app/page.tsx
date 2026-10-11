@@ -6,9 +6,9 @@ import Marquee from '@/components/sections/marquee';
 import AboutSection from '@/components/sections/about';
 import ServicesSection from '@/components/sections/services';
 import AgentsSection from '@/components/sections/agents';
-import IdeaValidator from '@/components/sections/idea-validator';
 import ProjectsSection from '@/components/sections/projects';
 import TestimonialsSection from '@/components/sections/testimonials';
+import FaqSection from '@/components/sections/faq';
 import ContactSection from '@/components/sections/contact';
 import Footer from '@/components/layout/footer';
 import SplashScreen from '@/components/layout/splash-screen';
@@ -46,10 +46,10 @@ export default function Home() {
         <AboutSection />
         <ServicesSection />
         <AgentsSection />
-        <IdeaValidator />
         <ProjectsSection />
         {/* Se auto-oculta mientras no haya testimonios reales cargados. */}
         <TestimonialsSection />
+        <FaqSection />
         <ContactSection />
       </main>
       <Footer />

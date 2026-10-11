@@ -16,6 +16,7 @@ import SectionHeading from '@/components/ui/section-heading';
 // three se carga adentro del componente, en su propio chunk: no pesa en la
 // carga inicial de la home.
 import AgentNetwork from '@/components/ui/agent-network';
+import AgentDemo from './agent-demo';
 import { PROJECTS } from '@/lib/projects';
 
 /**
@@ -89,9 +90,14 @@ export default function AgentsSection() {
 
         {/* `dark`: panel oscuro en los dos temas, igual que el carril de
             software a medida de Servicios. Los brillos del 3D necesitan fondo
-            negro para leerse. */}
+            negro para leerse.
+
+            La clase no es decorativa: `.dark` en globals.css redefine las
+            variables CSS para todo el subarbol. Sin ella, un hijo que use un
+            token del tema (`text-primary`, `text-muted-foreground`) toma el
+            valor del tema CLARO y queda con poco contraste sobre el negro. */}
         <div className="dark relative overflow-hidden rounded-panel bg-ink text-white">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_40%,#6366F130,transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_40%,#8A5CFF25,transparent_60%)]" />
 
           <div className="relative grid lg:grid-cols-[1.1fr_1fr]">
             <AgentNetwork className="h-[380px] sm:h-[440px] lg:h-[560px] order-first lg:order-last cursor-grab active:cursor-grabbing" />
@@ -133,13 +139,15 @@ export default function AgentsSection() {
 
               <Button asChild size="lg" className="h-14 px-10 rounded-2xl bg-white text-ink hover:bg-white/90 text-lg font-bold group">
                 <Link href="#contact">
-                  Quiero un agente
+                  Cotizar mi agente
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
             </div>
           </div>
         </div>
+
+        <AgentDemo />
 
         <div className="mt-16 grid gap-14 lg:grid-cols-2 lg:gap-20">
           {/* CRM */}
@@ -167,7 +175,7 @@ export default function AgentsSection() {
             </ul>
             <Button asChild variant="outline" size="lg" className="mt-6 h-12 rounded-2xl font-bold group">
               <Link href="#contact">
-                Quiero mi CRM
+                Cotizar mi CRM
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>

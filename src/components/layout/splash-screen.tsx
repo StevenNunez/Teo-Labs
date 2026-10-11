@@ -2,10 +2,8 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import imageData from '@/app/lib/placeholder-images.json';
 import InteractiveLogo from '@/components/ui/interactive-logo';
+import BrandGlobe from '@/components/ui/brand-globe';
 
 /**
  * El nombre se revela con el MISMO componente que el header
@@ -19,19 +17,24 @@ const FULL_TEXT = 'Teo Labs';
 const SEEN_KEY = 'teolabs-splash-seen';
 
 /**
- * Tiempos. Historia: 5,3s (eterno) -> 1,6s (no daba tiempo a leer el nombre)
- * -> 2,3s tipeando (todavia apurado). Ahora el revelado es mas pausado y el
- * reparto queda: entra el globo, las letras se acercan de a una, y hay un
- * respiro con el nombre completo antes de que suba la cortina.
+ * Tiempos. Historia: 5,3s (eterno) -> 1,6s -> 2,3s -> 2,9s con el globo. Y
+ * durante todo ese rato el scroll queda bloqueado: quien llega desde un
+ * anuncio o un enlace de redes espera casi tres segundos sin poder bajar.
+ *
+ * Desde 2026-10-10 son ~1,6s. El globo de antes era una imagen de stock sacada
+ * de internet; ahora es nuestro mundo en 3D (BrandGlobe): puntos con el
+ * degradado de marca, los trazos de la Θ y la orbita del laboratorio. Teo
+ * (theos, el mundo) + Labs. Si three tarda en llegar, el nombre sale igual y
+ * el globo aparece con un fundido cuando esta listo.
  *
  * Los delays por letra viven en globals.css (`.splash-letters`); aca solo se
  * replican las constantes para poder calcular cuando cerrar. Si cambias una,
  * cambia la otra.
  */
-const REVEAL_START_MS = 300;
-const REVEAL_STEP_MS = 170;
-const REVEAL_DURATION_MS = 620;
-const HOLD_AFTER_REVEAL_MS = 800;
+const REVEAL_START_MS = 120;
+const REVEAL_STEP_MS = 70;
+const REVEAL_DURATION_MS = 460;
+const HOLD_AFTER_REVEAL_MS = 550;
 const DURATION_MS =
   REVEAL_START_MS +
   (FULL_TEXT.length - 1) * REVEAL_STEP_MS +
@@ -51,7 +54,7 @@ export default function SplashScreen({ onComplete }: { onComplete?: () => void }
       finished.current = true;
       if (immediate) setInstant(true);
       setIsAnimating(false);
-      setTimeout(() => onComplete?.(), immediate ? 0 : 700);
+      setTimeout(() => onComplete?.(), immediate ? 0 : 500);
     },
     [onComplete]
   );
@@ -118,41 +121,18 @@ export default function SplashScreen({ onComplete }: { onComplete?: () => void }
               : {
                   y: '-100%',
                   opacity: 0,
-                  transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] },
+                  transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] },
                 }
           }
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white px-4"
+          // `bg-background` y no `bg-white`: con tema oscuro elegido, el
+          // visitante veia un fogonazo blanco antes de su pagina oscura.
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background px-4"
         >
-          {/* Fondo con brillo sutil */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#3b82f608,transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--brand-blue)/0.08),transparent_60%)]" />
 
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="mb-8 md:mb-12 relative"
-          >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-              className="relative z-10 w-32 h-32 sm:w-44 sm:h-44 md:w-52 md:h-52 rounded-full overflow-hidden"
-            >
-              <Image
-                src={imageData.splash.globe.url}
-                alt={imageData.splash.globe.description}
-                fill
-                // Sin `sizes`, un `fill` vale `100vw`: el navegador pedia la
-                // variante del ancho completo de la pantalla para un globo que
-                // nunca pasa de 208px. Es la primera descarga de la visita y
-                // bloquea el splash, asi que aca el tamaño real importa.
-                sizes="208px"
-                className="object-contain"
-                priority // Prioridad máxima para evitar parpadeos
-              />
-            </motion.div>
+          <BrandGlobe className="relative mb-4 h-48 w-48 sm:h-60 sm:w-60 md:h-72 md:w-72" />
 
-            <div className="absolute inset-0 bg-primary/10 blur-[60px] md:blur-[100px] rounded-full scale-125 -z-10" />
-          </motion.div>          {/*
+          {/*
             El texto completo va en el DOM desde el primer frame: cada letra se
             revela en su posicion final, sin empujar a las siguientes. Eso es lo
             que diferencia el "acercamiento" del tipeo — en el tipeo el bloque
@@ -163,26 +143,26 @@ export default function SplashScreen({ onComplete }: { onComplete?: () => void }
             <InteractiveLogo
               text={FULL_TEXT}
               variant="header"
-              className="font-headline font-bold tracking-[0.02em]"
+              className="font-wordmark font-bold tracking-wordmark"
             />
           </div>
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.4 }}
+            transition={{ delay: 0.3, duration: 0.3 }}
             className="absolute bottom-12 md:bottom-16 flex flex-col items-center gap-4 w-full px-6"
           >
-            <div className="h-[2px] w-24 md:w-32 bg-black/5 rounded-full overflow-hidden">
+            <div className="h-[2px] w-24 md:w-32 bg-foreground/5 rounded-full overflow-hidden">
               <motion.div
                 initial={{ x: '-100%' }}
                 animate={{ x: '100%' }}
-                transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
-                className="h-full w-full bg-gradient-to-r from-blue-600 via-purple-600 to-green-500"
+                transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
+                className="h-full w-full bg-brand-gradient"
               />
             </div>
-            <span className="text-[8px] md:text-[10px] font-semibold tracking-[0.4em] md:tracking-[0.5em] text-black/30 uppercase text-center">
-              Innovación Global desde Chile
+            <span className="text-[10px] font-semibold tracking-[0.4em] md:tracking-[0.5em] text-muted-foreground uppercase text-center">
+              Software a medida · La Serena, Chile
             </span>
           </motion.div>
         </motion.div>

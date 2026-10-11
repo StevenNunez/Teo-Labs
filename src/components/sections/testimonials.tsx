@@ -15,7 +15,7 @@ export default function TestimonialsSection() {
 
   return (
     <section id="testimonios" className="relative bg-canvas py-24 md:py-32 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#2563EB08,transparent_55%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#2F4BFF08,transparent_55%)] pointer-events-none" />
 
       <div className="container relative z-10 px-4 md:px-6">
         <div className="mx-auto mb-16 max-w-3xl space-y-4 text-center">

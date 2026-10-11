@@ -38,6 +38,14 @@ export type Project = {
    * minusculas: el deploy corre sobre un filesystem sensible a mayusculas.
    */
   logo?: string;
+  /**
+   * Version en un solo color del logo, en /public/logos/mono, para la franja de
+   * clientes. Ahi los logos van juntos y con sus fondos de marca (blanco, negro,
+   * azul marino) la fila se veia desordenada; en monocromo se lee como un muro
+   * de marcas parejo y se adapta al tema con `dark:invert`. Es PNG transparente
+   * de 640x320 con la marca centrada en la misma caja optica (62% x 46%).
+   */
+  logoMono?: string;
   tags: string[];
   kind: ProjectKind;
   /**
@@ -48,6 +56,11 @@ export type Project = {
    * nombre y su logo, no con el del producto.
    */
   company?: string;
+  /**
+   * El dato verificable del proyecto, en una linea. Lo da el usuario; nunca se
+   * inventa una cifra. Se muestra en la grilla de la home y en el portafolio.
+   */
+  fact?: string;
   /** Aparece en la seccion de la home (las 6 mas fuertes). */
   featured?: boolean;
 };
@@ -63,6 +76,7 @@ export const PROJECTS: Project[] = [
     logo: '/logos/pagnol.png',
     tags: ['ERP', 'Minería', 'Biometría'],
     kind: 'producto',
+    fact: 'Recién lanzado: en marcha blanca',
     featured: true,
   },
   {
@@ -105,9 +119,13 @@ export const PROJECTS: Project[] = [
       'Gestión y control de obra en tiempo real para constructoras, contratistas e inmobiliarias, potenciada con un asistente de IA.',
     url: 'https://ferroactiva.teolabs.app/',
     logo: '/logos/ferroactiva.png',
+    logoMono: '/logos/mono/ferroactiva.png',
     tags: ['Control de obra', 'IA', 'Tiempo real'],
     kind: 'producto',
     company: 'FerroActiva',
+    // Dato del usuario (2026-10-10): fue el primer proyecto de Teo Labs.
+    fact: 'Nuestro primer proyecto: 2 obras ya terminadas con el sistema',
+    featured: true,
   },
   {
     id: 'monty',
@@ -136,6 +154,7 @@ export const PROJECTS: Project[] = [
       'Sitio corporativo de Servicios y Proyectos Valar SpA (Antofagasta): obras civiles, movimiento de tierra, mantenimiento industrial e ingeniería 3D. Contratista de SQM, Copec, Coca-Cola Andina y Puerto Mejillones.',
     url: 'https://www.grupovalar.cl/',
     logo: '/logos/grupo-valar.png',
+    logoMono: '/logos/mono/grupo-valar.png',
     tags: ['Corporativo', 'Industrial', 'SEO Pro'],
     kind: 'cliente',
     featured: true,
@@ -147,9 +166,9 @@ export const PROJECTS: Project[] = [
       'Sitio corporativo para especialistas en ingeniería hidráulica, alcantarillado, redes de incendio y gasfitería industrial en Los Ángeles, Región del Biobío.',
     url: 'https://www.plumberservicios.cl/',
     logo: '/logos/plumber-servicios.png',
-    tags: ['Corporativo', 'Hidráulica', 'SEO Local'],
+    logoMono: '/logos/mono/plumber-servicios.png',
+    tags: ['Corporativo', 'Hidráulica', 'SEO local'],
     kind: 'cliente',
-    featured: true,
   },
   {
     id: 'constructora-recarp',
@@ -158,6 +177,7 @@ export const PROJECTS: Project[] = [
       'Sitio corporativo de Constructora Recarp SpA: terminaciones finas y construcción especializada en la Región de Coquimbo, con obras de hormigón armado y estructuras metálicas.',
     url: 'https://www.constructorarecarp.cl/',
     logo: '/logos/constructora-recarp.png',
+    logoMono: '/logos/mono/constructora-recarp.png',
     tags: ['Corporativo', 'Construcción', 'SEO'],
     kind: 'cliente',
   },
@@ -168,6 +188,7 @@ export const PROJECTS: Project[] = [
       'Sitio corporativo de Irarrázaval Servicios SpA, especialistas en ingeniería eléctrica y construcción civil.',
     url: 'https://www.irarrazavalservicios.cl/',
     logo: '/logos/irarrazaval.png',
+    logoMono: '/logos/mono/irarrazaval.png',
     tags: ['Corporativo', 'Ingeniería', 'Eléctrica'],
     kind: 'cliente',
   },

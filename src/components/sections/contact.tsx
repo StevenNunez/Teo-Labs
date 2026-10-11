@@ -50,8 +50,8 @@ export default function ContactSection() {
               className="mb-0"
               titleClassName="text-[clamp(2.5rem,4.6vw,5.5rem)]"
               eyebrow="Contacto"
-              title="Construyamos tu futuro"
-              lead="Cada gran empresa comenzó con una conversación. Cuéntanos tu desafío y te entregaremos una propuesta tecnológica que mueva la aguja de tu negocio."
+              title="Hablemos de tu proyecto"
+              lead="Cuéntanos qué necesitas. Te responde una persona en menos de 48 horas, y antes de empezar te entregamos alcance y precio por escrito."
             />
 
             <WhatsAppDirect />
@@ -84,10 +84,10 @@ export default function ContactSection() {
           <div className="relative">
 
             <Card className="relative border-border/40 bg-canvas/80 backdrop-blur-2xl rounded-panel overflow-hidden border-2">
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 via-purple-600 to-green-500" />
+              <div className="absolute top-0 left-0 w-full h-2 bg-brand-gradient" />
               <CardHeader className="space-y-4 p-10 pb-6">
                 <CardTitle className="text-3xl font-bold font-headline tracking-tight">
-                  Inicia tu Proyecto
+                  Cotiza tu proyecto
                 </CardTitle>
                 <CardDescription className="text-base font-medium">
                   Tres preguntas, menos de un minuto. Te respondemos con una propuesta técnica en menos de 48 horas.

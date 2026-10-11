@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { CLIENT_COMPANIES } from '@/lib/projects';
-import ProjectLogo from '@/components/ui/project-logo';
+import Image from 'next/image';
 
 /**
  * Franja de clientes.
@@ -43,15 +43,36 @@ export default function ClientsSection() {
               rel="noopener noreferrer"
               className="group flex flex-col items-center gap-1.5 text-center"
             >
-              {/* La placa es la imagen misma: cada logo trae su propio fondo de
-                  marca en un lienzo 2:1 comun, asi que la franja se ve pareja
-                  sin imponer un blanco que a las marcas oscuras (Valar,
-                  Irarrazaval) les dejaba un rectangulo flotando adentro. */}
-              <ProjectLogo
-                project={client}
-                sizes="(min-width: 1024px) 20vw, 45vw"
-                className="mb-3 h-auto w-full rounded-2xl transition-transform group-hover:-translate-y-0.5"
-              />
+              {/* En reposo, logos en un solo color: la fila se lee como un muro
+                  parejo. Al pasar el cursor (o enfocar con teclado) aparece el
+                  logo original con sus colores y su placa de marca: el cliente
+                  se reconoce como es. Las dos imagenes van apiladas en la misma
+                  caja 2:1 y se cruzan con un fundido, sin saltos de tamano. En
+                  pantallas tactiles queda el monocromo (no hay hover). */}
+              {client.logoMono && (
+                <span className="relative mb-1 block w-full">
+                  <Image
+                    src={client.logoMono}
+                    alt=""
+                    aria-hidden="true"
+                    width={640}
+                    height={320}
+                    sizes="(min-width: 1024px) 20vw, 45vw"
+                    className="h-auto w-full opacity-70 transition-opacity duration-300 group-hover:opacity-0 group-focus-visible:opacity-0 dark:invert"
+                  />
+                  {client.logo && (
+                    <Image
+                      src={client.logo}
+                      alt=""
+                      aria-hidden="true"
+                      width={640}
+                      height={320}
+                      sizes="(min-width: 1024px) 20vw, 45vw"
+                      className="absolute inset-0 h-full w-full rounded-2xl object-cover opacity-0 shadow-lg ring-1 ring-black/5 transition-all duration-300 group-hover:opacity-100 group-hover:-translate-y-0.5 group-focus-visible:opacity-100"
+                    />
+                  )}
+                </span>
+              )}
 
               <span className="font-headline text-lg md:text-xl font-bold tracking-tight text-foreground/80 transition-colors group-hover:text-foreground">
                 {client.company ?? client.name}

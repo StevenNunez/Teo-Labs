@@ -63,7 +63,7 @@ type WizardData = z.infer<typeof wizardSchema>;
  * La primera fila es presencia digital; las otras dos, software.
  *
  * Agente de IA y CRM tienen opcion propia desde que tienen seccion propia: si
- * el visitante llega desde "Quiero un agente" y no encuentra esa palabra aca,
+ * el visitante llega desde "Cotizar mi agente" y no encuentra esa palabra aca,
  * duda de si se equivoco de formulario. Landing y web corporativa se juntaron
  * para hacerles lugar: se cotizan igual y el detalle sale en la llamada.
  */
@@ -188,8 +188,8 @@ export default function ProjectWizard() {
   if (isSuccess) {
     return (
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center py-12">
-        <div className="h-20 w-20 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-6">
-          <CheckCircle2 className="h-10 w-10 text-emerald-600" />
+        <div className="h-20 w-20 rounded-full bg-brand-green/15 flex items-center justify-center mx-auto mb-6">
+          <CheckCircle2 className="h-10 w-10 text-brand-green" />
         </div>
         <h3 className="text-3xl font-bold mb-4">¡Todo listo!</h3>
         <p className="text-muted-foreground mb-8">

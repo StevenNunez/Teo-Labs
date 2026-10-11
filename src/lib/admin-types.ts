@@ -90,23 +90,23 @@ export const PROJECT_TYPES = [
  */
 export const DEFAULT_STEPS: Array<{ name: string; description: string }> = [
   {
-    name: 'Planificación y Diseño',
+    name: 'Planificación y diseño',
     description: 'Definición de estructura, colores y prototipo inicial.',
   },
   {
-    name: 'Desarrollo Frontend',
+    name: 'Desarrollo de la interfaz',
     description: 'Construcción de la interfaz visual y animaciones.',
   },
   {
-    name: 'Integración Backend',
+    name: 'Conexión con tus datos',
     description: 'Conexión con bases de datos y sistemas de contacto.',
   },
   {
-    name: 'Pruebas y Optimización',
+    name: 'Pruebas y ajustes',
     description: 'Ajustes finales de velocidad, SEO y seguridad.',
   },
   {
-    name: 'Lanzamiento y Dominio',
+    name: 'Lanzamiento',
     description: 'Puesta en marcha oficial en el dominio .cl.',
   },
 ];

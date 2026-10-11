@@ -1,46 +1,72 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ExternalLink, Heart } from 'lucide-react';
 import LiquidText from '@/components/ui/liquid-text';
 import SmokeCursor from '@/components/ui/smoke-cursor';
 import InteractiveLogo from '@/components/ui/interactive-logo';
+import BrandMark from '@/components/ui/brand-mark';
 
-// Mismo gradiente que el InteractiveLogo del header: blue-600 / purple-500 /
-// green-500. A nivel de modulo para que la referencia sea estable.
-const BRAND_GRADIENT = ['#2563EB', '#A855F7', '#22C55E'];
+// El degradado del mundo de la Θ (cobalto -> nebulosa), paleta Cielo de
+// Elqui. A nivel de modulo para que la referencia sea estable.
+const BRAND_GRADIENT = ['#2F4BFF', '#8A5CFF'];
 
+/**
+ * Enlaces del footer.
+ *
+ * - Rutas con `/#`, no `#`: el footer tambien se muestra en /portafolio-web y
+ *   en las paginas legales, donde un `#services` suelto no lleva a ninguna
+ *   parte.
+ * - Servicios = lo que el sitio vende hoy. Antes ofrecia "Consultoria
+ *   digital", que no aparece en ninguna otra parte, y no nombraba ni agentes
+ *   ni CRM.
+ * - Redes: solo las que son nuestras. `github.com/teolabs` es una cuenta de
+ *   2017 de otra persona y la de X no estaba confirmada; un enlace a una
+ *   cuenta ajena resta confianza. Las nuevas (Instagram, TikTok, Facebook) se
+ *   suman aca cuando existan.
+ * - Texto en mayuscula inicial: las mayusculas quedan solo para los rotulos
+ *   chicos de cada columna, que ya las ponen por CSS.
+ */
 const footerLinks = {
   services: {
-    title: 'NUESTROS SERVICIOS',
+    title: 'Servicios',
     links: [
-      { label: 'SOFTWARE A MEDIDA', href: '#services' },
-      { label: 'CONSULTORÍA DIGITAL', href: '#services' },
-      { label: 'INTELIGENCIA ARTIFICIAL', href: '#services' },
-      { label: 'AUTOMATIZACIÓN', href: '#services' },
+      { label: 'Agentes de IA', href: '/#agentes' },
+      { label: 'CRM a medida', href: '/#agentes' },
+      { label: 'ERP y software a medida', href: '/#services' },
+      { label: 'Webs y e-commerce', href: '/#services' },
     ],
   },
   social: {
-    title: 'REDES SOCIALES',
+    title: 'Redes',
     links: [
-      { label: 'LINKEDIN', href: 'https://cl.linkedin.com/company/teo-labs' },
-      { label: 'TWITTER / X', href: 'https://twitter.com/teolabs' },
-      { label: 'GITHUB', href: 'https://github.com/teolabs' },
+      { label: 'LinkedIn', href: 'https://cl.linkedin.com/company/teo-labs' },
+      { label: 'WhatsApp', href: 'https://wa.me/56930938222' },
     ],
   },
   company: {
-    title: 'TEO LABS',
+    title: 'Teo Labs',
     links: [
-      { label: 'NOSOTROS', href: '#about' },
-      { label: 'PROYECTOS', href: '#projects' },
-      { label: 'CONTACTO', href: '#contact' },
-      { label: 'WHATSAPP', href: 'https://wa.me/56930938222' },
+      { label: 'Nosotros', href: '/#about' },
+      { label: 'Proyectos', href: '/#projects' },
+      { label: 'Portafolio', href: '/portafolio-web' },
+      { label: 'Contacto', href: '/#contact' },
     ],
   },
 };
 
 export default function Footer() {
   const containerRef = useRef<HTMLDivElement>(null);
+  // El wordmark gigante se dibuja en un canvas, que necesita el nombre real de
+  // la familia. next/font registra Lexend con un nombre interno ("__Lexend_…"),
+  // asi que se lee de la variable CSS. Antes el canvas pedia 'Space Grotesk'
+  // literal, que con next/font no existe por ese nombre: caia en la fuente de
+  // reserva del sistema.
+  const [wordmarkFont, setWordmarkFont] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    const family = getComputedStyle(document.documentElement).getPropertyValue('--font-wordmark').trim();
+    if (family) setWordmarkFont(family);
+  }, []);
   const currentYear = new Date().getFullYear();
 
   return (
@@ -149,11 +175,16 @@ export default function Footer() {
             text="TEO LABS"
             className="w-full"
             gradient={BRAND_GRADIENT}
+            fontFamily={wordmarkFont}
+            fontWeight={700}
+            letterSpacing={-0.05}
           />
         </div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 py-8 border-t border-white/10">
+        {/* `pb-24` en celular y `md:pr-20` en escritorio: el boton flotante de
+            WhatsApp (bottom-6 right-6) quedaba encima de "Privacidad". */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-8 pb-24 md:pb-8 md:pr-20 border-t border-white/10">
           <div className="flex flex-col items-center md:items-start gap-2">
             {/*
               El nombre va con el InteractiveLogo, no como texto plano: es la
@@ -165,28 +196,32 @@ export default function Footer() {
               eso el tracking se aplica a los tramos de texto y no al
               contenedor.
             */}
-            <div className="flex items-center gap-2 text-[10px] uppercase text-white/35">
+            <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] uppercase text-white/60">
+              <BrandMark title="" className="h-5 w-5" />
               <span className="tracking-[0.35em]">© {currentYear}</span>
               <InteractiveLogo
                 text="Teo Labs"
                 variant="footer-small"
-                className="text-[14px] normal-case"
+                className="font-wordmark text-[14px] font-bold normal-case tracking-wordmark"
               />
-              <span className="tracking-[0.35em]">· Global Software House</span>
+              <span className="tracking-[0.35em]">· La Serena, Chile</span>
             </div>
+            <p className="text-[11px] tracking-[0.2em] uppercase text-white/50">
+              TEO LABS SpA · RUT 78.518.165-4
+            </p>
             
           </div>
           
           <div className="flex items-center gap-6 md:gap-10">
             <a
               href="/terminos"
-              className="text-[10px] text-white/30 hover:text-white/80 transition-colors tracking-[0.2em] font-semibold uppercase"
+              className="text-[11px] text-white/60 hover:text-white transition-colors tracking-[0.2em] font-semibold uppercase"
             >
               Términos
             </a>
             <a
               href="/privacidad"
-              className="text-[10px] text-white/30 hover:text-white/80 transition-colors tracking-[0.2em] font-semibold uppercase"
+              className="text-[11px] text-white/60 hover:text-white transition-colors tracking-[0.2em] font-semibold uppercase"
             >
               Privacidad
             </a>

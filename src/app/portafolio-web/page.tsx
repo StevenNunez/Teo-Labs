@@ -4,7 +4,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, ExternalLink, Sparkles, Monitor, Rocket, Zap, Boxes, Building2 } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Sparkles, Monitor, Rocket, Zap, Boxes, Building2 , Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PROJECTS, type Project } from '@/lib/projects';
 import ProjectThumb from '@/components/ui/project-thumb';
@@ -23,40 +23,43 @@ export const metadata: Metadata = {
  * badge las hacia pasar por proyectos entregados.
  */
 const demos = [
+  // Cada descripcion dice lo que la demo hace de verdad (revisado 2026-10-10):
+  // antes la clinica prometia "fichas y control de pacientes" y la
+  // inmobiliaria "Maps", y ninguna de las dos lo tenia.
   {
-    title: 'Estudio Jurídico',
-    description: 'Maqueta de experiencia premium para firmas de abogados, con gestión de citas.',
-    tags: ['Legal', 'Premium', 'UI/UX'],
+    title: 'Estudio jurídico',
+    description: 'Sitio para un estudio de abogados: especialidades, trayectoria y agenda de consulta.',
+    tags: ['Legal', 'Servicios profesionales', 'Agenda'],
     url: '/demo/legal',
   },
   {
     title: 'Inmobiliaria',
-    description: 'Maqueta de portal de propiedades con filtros dinámicos.',
-    tags: ['Real Estate', 'Ventas', 'Maps'],
+    description: 'Portal de propiedades con buscador por comuna y tipo, y favoritos.',
+    tags: ['Inmobiliaria', 'Buscador', 'Favoritos'],
     url: '/demo/inmobiliaria',
   },
   {
-    title: 'Clínica Dental',
-    description: 'Maqueta de gestión médica: reservas, fichas y control de pacientes.',
-    tags: ['Salud', 'Booking', 'SaaS'],
+    title: 'Clínica dental',
+    description: 'Sitio para una clínica: tratamientos, convenios y reserva de evaluación.',
+    tags: ['Salud', 'Reservas', 'Landing'],
     url: '/demo/clinica',
   },
   {
     title: 'Logística',
-    description: 'Maqueta de centro de mandos para flotas, con monitoreo de envíos.',
-    tags: ['Dashboard', 'Tracking', 'Realtime'],
+    description: 'Panel de control de flota: indicadores, mapa de la ruta y entregas recientes.',
+    tags: ['Dashboard', 'Seguimiento', 'Flota'],
     url: '/demo/logistica',
   },
   {
-    title: 'Boutique Online',
-    description: 'Maqueta de tienda de moda enfocada en conversión.',
-    tags: ['E-commerce', 'Moda', 'Pagos'],
+    title: 'Boutique online',
+    description: 'Tienda de moda con carro de compras, favoritos y newsletter.',
+    tags: ['E-commerce', 'Moda', 'Carro de compras'],
     url: '/demo/boutique',
   },
   {
     title: 'FitPro Gym',
-    description: 'Maqueta para centros deportivos: suscripciones, clases y comunidad.',
-    tags: ['Fitness', 'Memberships', 'Dark Mode'],
+    description: 'Sitio para un gimnasio: clases con reserva y planes de membresía.',
+    tags: ['Fitness', 'Membresías', 'Reservas'],
     url: '/demo/fitness',
   },
 ];
@@ -88,7 +91,7 @@ export default function PortfolioWebPage() {
                 </div>
                 <h1 className="text-5xl md:text-7xl font-bold font-headline tracking-tighter leading-none">
                   Portafolio de <br />
-                  <span className="text-primary">Resultados Reales</span>
+                  <span className="text-primary">resultados reales</span>
                 </h1>
                 <p className="text-muted-foreground text-lg md:text-xl font-medium max-w-2xl">
                   Nuestros propios ERP y plataformas SaaS, los sitios corporativos que entregamos a clientes, y demos navegables por rubro. Todo con su enlace real: puedes abrirlo y comprobarlo.
@@ -170,7 +173,7 @@ export default function PortfolioWebPage() {
 
           {/* Enhanced CTA Section */}
           <div className="mt-32 relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-green-500 rounded-panel blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
+            <div className="absolute -inset-1 bg-brand-gradient rounded-panel blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
             <div className="relative p-12 md:p-20 rounded-panel bg-white border border-border/50 text-center overflow-hidden">
               <div className="absolute top-0 right-0 p-12 opacity-5">
                 <Rocket className="h-64 w-64 text-primary" />
@@ -193,7 +196,7 @@ export default function PortfolioWebPage() {
                 <div className="pt-6">
                   <Button asChild size="lg" className="h-16 px-12 rounded-2xl bg-primary text-white font-bold text-xl shadow-primary/30 transition-all group">
                     <Link href="/#contact" className="flex items-center gap-3">
-                      Cotizar mi Proyecto Ahora
+                      Cotizar proyecto
                       <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-2" />
                     </Link>
                   </Button>
@@ -258,9 +261,15 @@ function RealProjectCard({ project }: { project: Project }) {
           {project.name}
         </h3>
 
-        <p className="mb-8 flex-1 text-sm font-medium leading-relaxed text-muted-foreground">
+        <p className="mb-4 flex-1 text-sm font-medium leading-relaxed text-muted-foreground">
           {project.description}
         </p>
+        {project.fact && (
+          <p className="mb-6 flex items-start gap-1.5 text-sm font-semibold">
+            <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-green" aria-hidden="true" />
+            {project.fact}
+          </p>
+        )}
 
         <Button asChild className="h-14 w-full rounded-2xl bg-primary font-bold text-white shadow-lg transition-all group/btn">
           <Link href={project.url} target="_blank" rel="noopener noreferrer">

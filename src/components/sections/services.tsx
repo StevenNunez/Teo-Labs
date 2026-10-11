@@ -13,7 +13,6 @@ import {
   ShieldCheck,
   ChevronDown,
   Boxes,
-  Brain,
   Smartphone,
   ArrowUpRight,
 } from 'lucide-react';
@@ -22,7 +21,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import SectionHeading from '@/components/ui/section-heading';
-import { PROJECTS } from '@/lib/projects';
+import { DEFAULT_STEPS } from '@/lib/admin-types';
 
 /**
  * Servicios, en dos carriles.
@@ -44,20 +43,20 @@ import { PROJECTS } from '@/lib/projects';
 const ecommerceSubPlans = [
   {
     title: 'E-commerce Básico',
-    price: '$180.000.- CLP',
-    features: ['Dominio .cl Incluido', '5 Correos Corporativos', 'Hosting Anual', 'Carrito & Pagos Online', 'Gestión de Productos'],
+    price: '$180.000',
+    features: ['Dominio .cl incluido', '5 correos corporativos', 'Hosting anual', 'Carrito y pagos online', 'Gestión de productos'],
     icon: <Package className="h-4 w-4" />,
   },
   {
     title: 'E-commerce Intermedio',
-    price: '$230.000.- CLP',
-    features: ['Todo lo del Plan Básico', 'Gestión de Stock Pro', 'SEO Optimizado', 'Reportes de Ventas', 'WhatsApp Integrado'],
+    price: '$230.000',
+    features: ['Todo lo del plan Básico', 'Gestión de stock avanzada', 'SEO optimizado', 'Reportes de ventas', 'WhatsApp integrado'],
     icon: <CreditCard className="h-4 w-4" />,
   },
   {
     title: 'E-commerce Full',
-    price: '$280.000.- CLP',
-    features: ['Todo lo del Plan Intermedio', 'Multivendedor / Categorías', 'Chat en Vivo', 'Soporte 24/7', 'App Web (PWA)'],
+    price: '$280.000',
+    features: ['Todo lo del plan Intermedio', 'Multivendedor y categorías', 'Chat en vivo', 'Soporte 24/7', 'App instalable (PWA)'],
     icon: <ShieldCheck className="h-4 w-4" />,
   },
 ];
@@ -66,30 +65,30 @@ const webPlans = [
   {
     id: 'static',
     icon: <Globe className="h-8 w-8 text-primary" />,
-    title: 'Webs Corporativas',
+    title: 'Webs corporativas',
     price: '$80.000.- CLP',
     description: 'La presencia digital profesional que tu negocio necesita para destacar.',
     features: [
       'Dominio .cl incluido (primer año)',
       '2 correos corporativos',
       'Hosting de alta velocidad incluido',
-      'Optimización SEO avanzada',
-      'Diseño responsive premium',
+      'SEO base para aparecer en Google',
+      'Diseño adaptado a celular',
     ],
     highlight: false,
   },
   {
     id: 'ecommerce',
     icon: <ShoppingCart className="h-8 w-8 text-primary" />,
-    title: 'E-commerce Pro',
+    title: 'E-commerce',
     price: 'Desde $180.000.- CLP',
     description: 'Vende sin límites con una tienda online optimizada para conversión.',
     features: [
-      'Pasarelas de Pago Integradas',
-      'Gestión de Stock Inteligente',
-      'Panel de Administración Pro',
-      'Certificado SSL de Seguridad',
-      'Soporte Técnico Continuo',
+      'Pasarelas de pago integradas',
+      'Gestión de stock',
+      'Panel de administración',
+      'Certificado SSL de seguridad',
+      'Soporte técnico continuo',
     ],
     highlight: true,
   },
@@ -106,15 +105,13 @@ const softwareLanes = [
     title: 'ERP y sistemas de gestión',
     description: 'Inventario, activos, obras, compras y estados de pago, con trazabilidad real.',
   },
-  {
-    icon: Brain,
-    title: 'Automatización & IA',
-    description: 'Procesos repetitivos que dejan de consumir horas de tu equipo.',
-  },
+  // "Automatizacion & IA" salio de aca: agentes y automatizacion tienen su
+  // propia seccion justo debajo, y repetirlo en una linea le restaba peso.
 ];
 
 /** Producto propio que respalda el carril de software. */
-const SOFTWARE_PROOF = PROJECTS.filter((p) => p.kind === 'producto').slice(0, 3);
+// Las etapas por defecto de /seguimiento (ver DEFAULT_STEPS en admin-types).
+const TRACKING_STEPS = DEFAULT_STEPS.map((s) => s.name);
 
 export default function ServicesSection() {
   const [hoveredService, setHoveredService] = useState<string | null>(null);
@@ -172,8 +169,10 @@ export default function ServicesSection() {
               >
                 {service.highlight && (
                   <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-[10px] font-semibold px-4 py-1.5 z-20 flex items-center gap-2 rounded-bl-panel">
+                    {/* Antes "Más solicitado": no lo hemos medido. Esto si es
+                        cierto y es lo que separa esta tarjeta de la otra. */}
                     <Zap className="h-3 w-3 fill-current" />
-                    MÁS SOLICITADO
+                    VENDE ONLINE
                   </div>
                 )}
 
@@ -213,7 +212,7 @@ export default function ServicesSection() {
                             <div className="flex flex-col gap-1.5 text-[11px] text-muted-foreground font-medium">
                               {sub.features.slice(0, 2).map((f, i) => (
                                 <span key={i} className="flex items-center gap-2">
-                                  <Check className="h-3 w-3 text-emerald-500" /> {f}
+                                  <Check className="h-3 w-3 text-brand-green" /> {f}
                                 </span>
                               ))}
                             </div>
@@ -253,7 +252,7 @@ export default function ServicesSection() {
                     service.highlight ? 'bg-primary text-white' : 'bg-muted text-foreground hover:bg-primary hover:text-white'
                   )}>
                     <Link href="#contact">
-                      Cotizar ahora
+                      Cotizar proyecto
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
                     </Link>
                   </Button>
@@ -265,11 +264,11 @@ export default function ServicesSection() {
 
         {/* ---------------- Carril 2: software a medida ---------------- */}
         {/* `dark`: el panel es oscuro en los dos temas, asi que sus tokens
-            tambien tienen que serlo (ver la nota en idea-validator.tsx). Aca lo
+            tambien tienen que serlo (ver la nota del panel en agents.tsx). Aca lo
             que corrige es el azul — `--primary` del tema claro es siete puntos
             mas oscuro y sobre este negro pierde legibilidad en los iconos. */}
         <div className="dark mt-16 rounded-panel bg-ink p-8 md:p-14 text-white overflow-hidden relative">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,#2563EB25,transparent_55%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,#2F4BFF25,transparent_55%)]" />
 
           <div className="relative grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-start">
             <div className="space-y-6">
@@ -302,38 +301,52 @@ export default function ServicesSection() {
               <div className="pt-4">
                 <Button asChild size="lg" className="h-14 px-10 rounded-2xl bg-white text-ink hover:bg-white/90 text-lg font-bold group">
                   <Link href="#contact">
-                    Agendar diagnóstico
+                    Cotizar proyecto
                     <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Button>
               </div>
             </div>
 
-            {/* La prueba del carril caro no es una lista de features: es
-                software nuestro corriendo, que el visitante puede abrir. */}
+            {/* Antes aca iba otra lista de productos (PAGNOL, Gestion de Obras,
+                Fruto): los mismos que ya salen en la portada y en Proyectos.
+                Ahora muestra algo que el sitio no contaba y que existe: el
+                enlace privado de seguimiento (/seguimiento/[id]), con las etapas
+                por defecto de cada proyecto (DEFAULT_STEPS). */}
             <div className="space-y-4">
               <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/40">
-                Construido y operado por nosotros
+                Sigues tu proyecto en línea
               </p>
-              {SOFTWARE_PROOF.map((project) => (
-                <Link
-                  key={project.id}
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block rounded-3xl border border-white/10 bg-white/5 p-6 transition-all hover:border-primary/40 hover:bg-white/[0.08]"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="space-y-2">
-                      <p className="font-headline text-xl font-bold tracking-tight">{project.name}</p>
-                      <p className="text-sm text-white/50 leading-relaxed line-clamp-2">
-                        {project.description}
-                      </p>
-                    </div>
-                    <ArrowUpRight className="h-5 w-5 shrink-0 text-white/30 transition-colors group-hover:text-primary" />
-                  </div>
-                </Link>
-              ))}
+              <div aria-hidden="true" className="rounded-3xl border border-white/10 bg-white/5 p-6">
+                <div className="flex items-center justify-between gap-4">
+                  <p className="font-headline text-lg font-bold tracking-tight">Tu proyecto</p>
+                  <span className="rounded-full bg-brand-green/15 px-3 py-1 text-[11px] font-semibold text-brand-green">En desarrollo</span>
+                </div>
+                <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10">
+                  <div className="h-full w-[55%] rounded-full bg-brand-gradient" />
+                </div>
+                <ol className="mt-5 space-y-3">
+                  {TRACKING_STEPS.map((step, i) => (
+                    <li key={step} className="flex items-center gap-3 text-sm">
+                      <span
+                        className={cn(
+                          'flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[10px] font-bold',
+                          i < 2 && 'border-brand-green bg-brand-green text-ink',
+                          i === 2 && 'border-primary text-primary',
+                          i > 2 && 'border-white/15 text-white/30'
+                        )}
+                      >
+                        {i < 2 ? '✓' : i + 1}
+                      </span>
+                      <span className={i > 2 ? 'text-white/40' : 'text-white/85'}>{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <p className="text-sm text-white/55 leading-relaxed">
+                Cada cliente recibe un enlace privado con las etapas de su proyecto y su avance. Sin
+                llamar para preguntar en qué va.
+              </p>
             </div>
           </div>
         </div>

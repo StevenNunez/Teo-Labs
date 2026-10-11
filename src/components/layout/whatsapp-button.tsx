@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Sparkles, Boxes, Cpu } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg 
@@ -39,9 +40,16 @@ const messageOptions = [
 
 export default function WhatsAppButton() {
   const whatsappNumber = '56930938222';
+  // En las demos el boton verde parecia el WhatsApp del negocio ficticio (la
+  // clinica, la boutique). Ahi el contacto con Teo Labs va en la franja de
+  // arriba ("Quiero uno asi").
+  const pathname = usePathname();
+  if (pathname?.startsWith('/demo')) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    // En la home, bajo md, la barra fija (MobileCta) ya trae WhatsApp: el
+    // boton flotante quedaria encima de ella.
+    <div className={`fixed bottom-6 right-6 z-50 ${pathname === '/' ? 'hidden md:block' : ''}`}>
       <Popover>
         <PopoverTrigger asChild>
           {/*
@@ -98,7 +106,7 @@ export default function WhatsAppButton() {
               <WhatsAppIcon className="h-[22px] w-[22px]" />
             </span>
             <span className="max-w-0 overflow-hidden whitespace-nowrap text-[15px] font-semibold opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:max-w-[180px] group-hover:opacity-100 group-focus-visible:ml-3 group-focus-visible:max-w-[180px] group-focus-visible:opacity-100">
-              Hablemos por WhatsApp
+              Hablar por WhatsApp
             </span>
           </Button>
         </PopoverTrigger>

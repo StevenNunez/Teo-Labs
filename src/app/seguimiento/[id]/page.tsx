@@ -97,7 +97,7 @@ export default async function ProjectTrackingPage({
                 <div>
                   <h1 className="text-4xl font-bold font-headline tracking-tight">{project.name}</h1>
                   <p className="text-muted-foreground flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4 text-green-500" />
+                    <ShieldCheck className="h-4 w-4 text-brand-green" />
                     Proyecto en desarrollo exclusivo para {clientLabel}
                   </p>
                 </div>
@@ -110,7 +110,7 @@ export default async function ProjectTrackingPage({
 
           {/* Progress Card */}
           <Card className="border-border/50 shadow-2xl rounded-panel overflow-hidden bg-card/50 backdrop-blur-sm relative group">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-green-500" />
+            <div className="absolute top-0 left-0 w-full h-1 bg-brand-gradient" />
             <CardContent className="p-10 space-y-8">
               <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-8">
                 <div className="space-y-2 text-center md:text-left">
@@ -151,13 +151,13 @@ export default async function ProjectTrackingPage({
           {/* Timeline */}
           {steps.length > 0 && (
             <div className="space-y-8">
-              <h3 className="text-2xl font-bold font-headline px-2">Ruta de Trabajo</h3>
+              <h3 className="text-2xl font-bold font-headline px-2">Ruta de trabajo</h3>
               <div className="relative space-y-6 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-primary/50 before:via-muted before:to-transparent">
                 {steps.map((step) => (
                   <div key={step.id} className="relative flex items-start md:justify-center gap-6 md:gap-12">
                     <div className="flex items-center justify-center w-10 h-10 rounded-full border-2 border-background bg-card shadow-xl z-10 shrink-0">
                       {step.status === 'completed' ? (
-                        <CheckCircle2 className="h-6 w-6 text-green-500" />
+                        <CheckCircle2 className="h-6 w-6 text-brand-green" />
                       ) : step.status === 'in_progress' ? (
                         <div className="h-4 w-4 bg-primary rounded-full animate-pulse shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
                       ) : (

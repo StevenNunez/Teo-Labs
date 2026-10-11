@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Check } from 'lucide-react';
 import { PROJECTS, FEATURED_PROJECTS } from '@/lib/projects';
 
 /**
@@ -16,15 +16,21 @@ import { PROJECTS, FEATURED_PROJECTS } from '@/lib/projects';
  * cada una con su enlace. El visitante puede abrirlas antes de escribirnos.
  */
 
+const TRUST = [
+  'Respuesta en menos de 48 horas',
+  'Alcance y precio por escrito antes de empezar',
+  'Webs desde $80.000',
+];
+
 const PROOF = FEATURED_PROJECTS.filter((p) => p.kind === 'producto').slice(0, 4);
 
 export default function HeroSection() {
   return (
     // Sin blobs propios: la iluminacion azul ahora viene del `body`, fija para
     // toda la pagina.
-    <section id="hero" className="relative pt-32 pb-16 md:pt-44 md:pb-24 overflow-hidden">
+    <section id="hero" className="relative pt-28 pb-16 md:pt-44 md:pb-24 overflow-hidden">
       <div className="container relative z-10 px-4 md:px-6">
-        <div className="flex flex-col items-center text-center space-y-10">
+        <div className="flex flex-col items-center text-center space-y-8 md:space-y-10">
 
           {/* El badge lleva un dato contado, no un adjetivo. */}
 
@@ -32,26 +38,28 @@ export default function HeroSection() {
           {/* Headline */}
           <div className="max-w-5xl space-y-6">
             {/*
-              El gradiente iba sobre "ERP que corre tu operacion", que ocupa dos
-              renglones. `bg-clip-text` estira el degradado sobre la caja
-              completa del span, asi que el segundo renglon arrancaba ya en
-              violeta y terminaba en verde claro: se leia como otro color, no
-              como continuacion, y perdia contraste.
+              Titular definido el 10-10-2026 con el usuario. Antes: "Desde tu
+              landing hasta el ERP que corre tu operacion": mostraba el rango,
+              pero "landing" y "ERP" son palabras nuestras, no del dueno de una
+              pyme. "Ordena" es lo que de verdad hace un ERP o un CRM, y "tu
+              pagina web" le habla tambien a quien ya tiene una y quiere otra.
 
-              Ahora el gradiente cubre solo "ERP", una palabra en una linea. Es
-              ademas la palabra que queremos que salte.
+              El degradado va sobre una sola palabra en una sola linea (sobre
+              dos renglones, bg-clip-text estiraba el degradado y el segundo
+              arrancaba en otro color).
+
+              En celular el titular baja a text-4xl y la bajada es corta: antes
+              el titulo y el parrafo llenaban la primera pantalla y los botones
+              quedaban abajo.
             */}
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-headline leading-[1.02] tracking-[-0.035em] animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
-              Desde tu landing hasta el{' '}
-              <span className="bg-gradient-to-r from-blue-500 via-purple-400 to-emerald-400 bg-clip-text text-transparent">
-                ERP
-              </span>{' '}
-              que corre tu operación
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-headline leading-[1.02] tracking-[-0.035em] animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
+              Desde tu página web hasta el sistema que{' '}
+              <span className="text-brand-gradient">ordena</span>{' '}
+              tu empresa
             </h1>
-            <p className="max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300">
-              No solo desarrollamos software: construimos y operamos nuestras propias
-              plataformas —ERP de activos para minería, control de obras, e-commerce—
-              y ponemos esa misma ingeniería al servicio de tu empresa.
+            <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300">
+              Webs, agentes de IA, CRM y software a medida. Construimos y operamos
+              nuestras propias plataformas, y esa experiencia la ponemos en tu empresa.
             </p>
           </div>
 
@@ -59,14 +67,26 @@ export default function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto animate-in fade-in slide-in-from-bottom-8 duration-700 delay-400">
             <Button asChild size="lg" className="h-14 px-10 rounded-2xl bg-primary text-white text-lg font-bold transition-all group">
               <Link href="#contact">
-                Iniciar Proyecto
+                Cotizar proyecto
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="h-14 px-10 rounded-2xl border-border bg-background/50 backdrop-blur-sm text-lg font-bold hover:bg-muted transition-all">
-              <Link href="/portafolio-web">Ver Portafolio</Link>
+              <Link href="/portafolio-web">Ver proyectos</Link>
             </Button>
           </div>
+
+          {/* Lo que el visitante quiere saber antes de escribir, al lado del
+              boton. Son las mismas promesas que el sitio ya hace en Servicios y
+              en Contacto, no promesas nuevas. */}
+          <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground animate-in fade-in duration-700 delay-500">
+            {TRUST.map((item) => (
+              <li key={item} className="flex items-center gap-2">
+                <Check className="h-4 w-4 shrink-0 text-brand-green" aria-hidden="true" />
+                {item}
+              </li>
+            ))}
+          </ul>
 
           {/* Prueba abrible: cada chip es un producto nuestro que esta en linea. */}
           <div className="w-full max-w-4xl pt-8 space-y-5 animate-in fade-in duration-1000 delay-500">

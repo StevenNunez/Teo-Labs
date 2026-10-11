@@ -35,7 +35,7 @@ const FALLBACK = 'Hola Teo Labs! Quiero conversar sobre un proyecto.';
 const STARTERS = [
   { label: 'ERP a medida', text: 'Hola Teo Labs! Necesito un ERP o sistema de gestión para mi empresa. ' },
   { label: 'Web o e-commerce', text: 'Hola! Quiero cotizar una página web o tienda online. ' },
-  { label: 'Automatizar con IA', text: 'Hola! Quiero automatizar procesos de mi empresa con IA. ' },
+  { label: 'Agente de IA', text: 'Hola! Quiero un agente de IA para atender a mis clientes. ' },
 ];
 
 export default function WhatsAppDirect() {
@@ -53,7 +53,10 @@ export default function WhatsAppDirect() {
         <div className="min-w-0">
           <p className="font-headline text-lg font-bold leading-none">Escríbenos por WhatsApp</p>
           <p className="mt-1 text-xs font-medium text-muted-foreground">
-            {DISPLAY_NUMBER} · sin formularios, respondemos en el día
+            {/* Antes: "sin formularios, respondemos en el dia", junto a un
+                formulario de tres pasos que promete "menos de 48 horas". Una
+                sola promesa en todo el sitio: 48 horas. */}
+            {DISPLAY_NUMBER} · el camino más rápido para escribirnos
           </p>
         </div>
       </div>

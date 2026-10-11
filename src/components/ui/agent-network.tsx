@@ -24,13 +24,19 @@ import { useEffect, useRef } from 'react';
  *   no hay que generar texturas de texto.
  */
 
+// Paleta Cielo de Elqui (ver --brand-* en globals.css): cobalto, nebulosa
+// y el verde del punto de la Θ.
+const BLUE = 0x2f4bff;
+const PURPLE = 0x8a5cff;
+const GREEN = 0x22c55e;
+
 const NODES = [
-  { label: 'WhatsApp', color: 0x22c55e },
-  { label: 'Correo', color: 0x3b82f6 },
-  { label: 'Sitio web', color: 0x8b5cf6 },
-  { label: 'CRM', color: 0x22c55e },
-  { label: 'ERP', color: 0x3b82f6 },
-  { label: 'Planillas', color: 0x8b5cf6 },
+  { label: 'WhatsApp', color: GREEN },
+  { label: 'Correo', color: BLUE },
+  { label: 'Sitio web', color: PURPLE },
+  { label: 'CRM', color: GREEN },
+  { label: 'ERP', color: BLUE },
+  { label: 'Planillas', color: PURPLE },
 ];
 
 const PULSES_PER_LINK = 2;
@@ -77,16 +83,16 @@ export default function AgentNetwork({ className }: { className?: string }) {
       const coreGeo = new THREE.IcosahedronGeometry(1.05, 1);
       const coreWire = new THREE.LineSegments(
         new THREE.WireframeGeometry(coreGeo),
-        new THREE.LineBasicMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.55 })
+        new THREE.LineBasicMaterial({ color: PURPLE, transparent: true, opacity: 0.55 })
       );
       const coreInner = new THREE.Mesh(
         new THREE.IcosahedronGeometry(0.62, 2),
-        new THREE.MeshBasicMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.9 })
+        new THREE.MeshBasicMaterial({ color: BLUE, transparent: true, opacity: 0.95 })
       );
       const coreGlow = new THREE.Mesh(
         new THREE.SphereGeometry(1.5, 32, 32),
         new THREE.MeshBasicMaterial({
-          color: 0x6366f1,
+          color: PURPLE,
           transparent: true,
           opacity: 0.08,
           blending: THREE.AdditiveBlending,

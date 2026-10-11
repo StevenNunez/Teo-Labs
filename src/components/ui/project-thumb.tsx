@@ -42,9 +42,9 @@ export default function ProjectThumb({
       )}
     >
       {/* Resplandor con el gradiente de marca */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,#2563EB40,transparent_55%),radial-gradient(circle_at_75%_80%,#22C55E30,transparent_55%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,#2F4BFF40,transparent_55%),radial-gradient(circle_at_75%_80%,#8A5CFF30,transparent_55%)]" />
 
-      <span className="relative bg-gradient-to-r from-blue-500 via-purple-400 to-green-400 bg-clip-text font-headline text-4xl font-bold leading-none tracking-tighter text-transparent md:text-5xl">
+      <span className="relative text-brand-gradient font-headline text-4xl font-bold leading-none tracking-tighter md:text-5xl">
         {project.name}
       </span>
       <span className="relative text-[10px] font-semibold uppercase tracking-[0.3em] text-white/40">

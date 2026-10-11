@@ -23,3 +23,13 @@ export async function loadSpaceGrotesk() {
     { name: 'Space Grotesk', data: bold, style: 'normal' as const, weight: 700 as const },
   ];
 }
+
+/**
+ * Lexend Bold, la tipografia del nombre "Teo Labs" (ver layout.tsx). Mismo
+ * criterio que Space Grotesk: woff estatico en el repo, sin depender de la red.
+ * Origen: paquete @fontsource/lexend (latin 700). Licencia SIL Open Font License 1.1.
+ */
+export async function loadLexend() {
+  const bold = await readFile(join(process.cwd(), 'src/assets/Lexend-Bold.woff'));
+  return [{ name: 'Lexend', data: bold, style: 'normal' as const, weight: 700 as const }];
+}
