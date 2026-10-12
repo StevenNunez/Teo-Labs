@@ -58,8 +58,8 @@ export default function HeroSection() {
               tu empresa
             </h1>
             <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300">
-              Webs, agentes de IA, CRM y software a medida. Construimos y operamos
-              nuestras propias plataformas, y esa experiencia la ponemos en tu empresa.
+              Creamos y optimizamos páginas web. Desarrollamos software a medida:
+              CRM, ERP y agentes de IA. Para pymes chilenas.
             </p>
           </div>
 

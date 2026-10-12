@@ -222,19 +222,19 @@
 }
 
 .splash-letters [aria-hidden='true'] > span {
-  animation: splashLetterIn 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: splashLetterIn 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* 70ms entre letra y letra (antes 170ms, con un splash de 2,9s). Sigue
-   leyendose como un acercamiento de a una y el total baja a ~1,4s. */
-.splash-letters [aria-hidden='true'] > span:nth-child(1) { animation-delay: 120ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(2) { animation-delay: 190ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(3) { animation-delay: 260ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(4) { animation-delay: 330ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(5) { animation-delay: 400ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(6) { animation-delay: 470ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(7) { animation-delay: 540ms; }
-.splash-letters [aria-hidden='true'] > span:nth-child(8) { animation-delay: 610ms; }
+/* 120ms entre letra y letra: se lee como un acercamiento de a una, con calma.
+   Total del splash ~2,6s (ver splash-screen.tsx: si cambias uno, cambia el otro). */
+.splash-letters [aria-hidden='true'] > span:nth-child(1) { animation-delay: 250ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(2) { animation-delay: 370ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(3) { animation-delay: 490ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(4) { animation-delay: 610ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(5) { animation-delay: 730ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(6) { animation-delay: 850ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(7) { animation-delay: 970ms; }
+.splash-letters [aria-hidden='true'] > span:nth-child(8) { animation-delay: 1090ms; }
 
 @media (prefers-reduced-motion: reduce) {
   .splash-letters [aria-hidden='true'] > span {

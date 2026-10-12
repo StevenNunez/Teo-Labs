@@ -21,7 +21,8 @@ const SEEN_KEY = 'teolabs-splash-seen';
  * durante todo ese rato el scroll queda bloqueado: quien llega desde un
  * anuncio o un enlace de redes espera casi tres segundos sin poder bajar.
  *
- * Desde 2026-10-10 son ~1,6s. El globo de antes era una imagen de stock sacada
+ * Desde 2026-10-11 son ~2,6s mas 0,7s de salida: el usuario lo encontro muy
+ * rapido ("es nuestra primera impresion"). Antes, el 2026-10-10, ~1,6s. El globo de antes era una imagen de stock sacada
  * de internet; ahora es nuestro mundo en 3D (BrandGlobe): puntos con el
  * degradado de marca, los trazos de la Θ y la orbita del laboratorio. Teo
  * (theos, el mundo) + Labs. Si three tarda en llegar, el nombre sale igual y
@@ -31,10 +32,10 @@ const SEEN_KEY = 'teolabs-splash-seen';
  * replican las constantes para poder calcular cuando cerrar. Si cambias una,
  * cambia la otra.
  */
-const REVEAL_START_MS = 120;
-const REVEAL_STEP_MS = 70;
-const REVEAL_DURATION_MS = 460;
-const HOLD_AFTER_REVEAL_MS = 550;
+const REVEAL_START_MS = 250;
+const REVEAL_STEP_MS = 120;
+const REVEAL_DURATION_MS = 600;
+const HOLD_AFTER_REVEAL_MS = 900;
 const DURATION_MS =
   REVEAL_START_MS +
   (FULL_TEXT.length - 1) * REVEAL_STEP_MS +
@@ -54,7 +55,7 @@ export default function SplashScreen({ onComplete }: { onComplete?: () => void }
       finished.current = true;
       if (immediate) setInstant(true);
       setIsAnimating(false);
-      setTimeout(() => onComplete?.(), immediate ? 0 : 500);
+      setTimeout(() => onComplete?.(), immediate ? 0 : 700);
     },
     [onComplete]
   );
@@ -121,7 +122,7 @@ export default function SplashScreen({ onComplete }: { onComplete?: () => void }
               : {
                   y: '-100%',
                   opacity: 0,
-                  transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] },
+                  transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] },
                 }
           }
           // `bg-background` y no `bg-white`: con tema oscuro elegido, el
