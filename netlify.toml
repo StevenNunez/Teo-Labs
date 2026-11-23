@@ -1,0 +1,15 @@
+# Configuracion de Netlify. Netlify detecta Next.js solo; esto fija lo que
+# no conviene dejar al azar.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Misma version mayor de Node que se usa en desarrollo para el build.
+  NODE_VERSION = "22"
+
+[functions]
+  # Las imagenes para compartir (next/og) leen las tipografias del disco en
+  # tiempo de ejecucion; sin esto podrian no viajar dentro de la funcion.
+  included_files = ["src/assets/**"]
