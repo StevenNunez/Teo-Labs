@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { DEFAULT_STEPS } from '@/lib/admin-types';
+import { isAdminRequest, NO_AUTORIZADO } from '@/lib/admin-guard';
 
 /**
  * Escrituras del panel interno.
@@ -11,8 +12,9 @@ import { DEFAULT_STEPS } from '@/lib/admin-types';
  * Corren solo en el servidor y usan la service_role key, que se salta RLS. Lo
  * que las protege es src/middleware.ts: /admin exige Basic Auth, y las Server
  * Actions de esta pagina se invocan como POST a la misma ruta, asi que pasan por
- * el mismo control. Si algun dia se mueve el matcher del middleware, estas
- * funciones quedan abiertas: van juntas.
+ * el mismo control. Ademas cada accion vuelve a verificar la clave por su
+ * cuenta (isAdminRequest): una Server Action se puede llamar desde fuera de su
+ * pagina, y no conviene que dependa solo del matcher del middleware.
  */
 
 type ActionResult = { ok: true; id?: string } | { ok: false; message: string };
@@ -84,6 +86,7 @@ function firstIssue(error: z.ZodError): string {
 }
 
 export async function createProject(input: unknown): Promise<ActionResult> {
+  if (!(await isAdminRequest())) return { ok: false, message: NO_AUTORIZADO };
   if (!supabaseAdmin) {
     return { ok: false, message: 'La base de datos no está configurada.' };
   }
@@ -161,6 +164,7 @@ export async function createProject(input: unknown): Promise<ActionResult> {
 }
 
 export async function updateProject(input: unknown): Promise<ActionResult> {
+  if (!(await isAdminRequest())) return { ok: false, message: NO_AUTORIZADO };
   if (!supabaseAdmin) {
     return { ok: false, message: 'La base de datos no está configurada.' };
   }
@@ -190,6 +194,7 @@ const stepSchema = z.object({
 
 /** Mueve una etapa de la ruta de trabajo; es lo que ve el cliente cambiar. */
 export async function updateStepStatus(input: unknown): Promise<ActionResult> {
+  if (!(await isAdminRequest())) return { ok: false, message: NO_AUTORIZADO };
   if (!supabaseAdmin) {
     return { ok: false, message: 'La base de datos no está configurada.' };
   }

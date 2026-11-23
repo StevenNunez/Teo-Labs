@@ -175,6 +175,7 @@ export default function AgentDemo() {
             id="agent-demo-input"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            maxLength={500}
             placeholder="Escribe tu pregunta…"
             className="h-11 flex-1 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-primary/60"
           />

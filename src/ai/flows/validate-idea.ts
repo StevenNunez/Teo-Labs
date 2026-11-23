@@ -8,6 +8,8 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import { anotarError } from '@/lib/errores-servidor';
+import { ipDelPedido, tomarTurno } from '@/lib/freno';
 
 const ConsultantInputSchema = z.object({
   query: z.string().describe('La duda o pregunta del cliente sobre tecnología o servicios.'),
@@ -59,8 +61,48 @@ const consultantPrompt = ai.definePrompt({
     5. Respuestas breves: como máximo 120 palabras. Es un chat, no un informe.`,
 });
 
+/**
+ * Limites del asesor. Es publico (esta en la portada) y cada pregunta gasta la
+ * clave de Gemini, asi que nadie puede mandarle textos enormes ni miles de
+ * preguntas: por IP, unas pocas por hora; y un techo diario para todo el sitio,
+ * por si alguien reparte las llamadas entre muchas IPs.
+ */
+const MAX_CARACTERES = 500;
+const POR_IP_POR_HORA = 10;
+const TOTAL_POR_DIA = 300;
+
+/** Respuesta con la misma forma que la de la IA, para que la pantalla la muestre igual. */
+function respuestaFija(answer: string): ConsultantOutput {
+  return {
+    answer,
+    relatedService: 'Atención directa',
+    priceContext: 'La cotización es sin costo y te respondemos en menos de 48 horas.',
+    salesPitch: 'Escríbenos por WhatsApp y seguimos la conversación con una persona del equipo.',
+  };
+}
+
 export async function validateIdea(query: string): Promise<ConsultantOutput> {
-  const { output } = await consultantPrompt({ query });
-  if (!output) throw new Error('No se generó respuesta de consultoría');
-  return output;
+  const pregunta = (typeof query === 'string' ? query : '').trim().slice(0, MAX_CARACTERES);
+  if (pregunta.length < 5) {
+    return respuestaFija('Cuéntame un poco más sobre lo que necesitas y te oriento.');
+  }
+
+  const ip = await ipDelPedido();
+  const dentroDelLimite =
+    (await tomarTurno(`ia:ip:${ip}`, POR_IP_POR_HORA, 3600)) &&
+    (await tomarTurno('ia:total', TOTAL_POR_DIA, 86400));
+  if (!dentroDelLimite) {
+    return respuestaFija(
+      'Por ahora ya respondí varias preguntas desde tu conexión. Para seguir, lo mejor es hablar directo con nosotros: te respondemos personalmente.'
+    );
+  }
+
+  try {
+    const { output } = await consultantPrompt({ query: pregunta });
+    if (!output) throw new Error('No se generó respuesta de consultoría');
+    return output;
+  } catch (e) {
+    await anotarError({ origen: 'servidor', donde: 'ia/asesor', error: e });
+    throw e;
+  }
 }

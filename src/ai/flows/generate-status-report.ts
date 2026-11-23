@@ -7,6 +7,8 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import { isAdminRequest } from '@/lib/admin-guard';
+import { anotarError } from '@/lib/errores-servidor';
 
 const StatusReportInputSchema = z.object({
   projectName: z.string(),
@@ -42,8 +44,16 @@ const statusReportPrompt = ai.definePrompt({
     El mensaje debe ser conciso, impactante y terminar reforzando el compromiso de Teo Labs.`,
 });
 
+/** Solo desde el panel: gasta la clave de Gemini y no tiene sentido para nadie mas. */
 export async function generateStatusReport(input: StatusReportInput) {
-  const { output } = await statusReportPrompt(input);
-  if (!output) throw new Error('No se pudo generar el reporte de estado');
-  return output;
+  if (!(await isAdminRequest())) throw new Error('No autorizado.');
+  const datos = StatusReportInputSchema.parse(input);
+  try {
+    const { output } = await statusReportPrompt(datos);
+    if (!output) throw new Error('No se pudo generar el reporte de estado');
+    return output;
+  } catch (e) {
+    await anotarError({ origen: 'servidor', donde: 'ia/informe-de-estado', error: e });
+    throw e;
+  }
 }

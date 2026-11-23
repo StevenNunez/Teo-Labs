@@ -11,7 +11,7 @@ En producción: **[teolabs.app](https://www.teolabs.app)**
 - **Tailwind CSS** + **shadcn/ui** (Radix) + **Framer Motion**
 - **Genkit** con Gemini 2.5 Flash para las funciones de IA
 - **Supabase** (opcional) para el seguimiento de proyectos
-- Desplegado en **Firebase App Hosting**
+- Desplegado en **Vercel**
 
 ## Desarrollo local
 
@@ -40,8 +40,11 @@ demo del agente ("Prueba un agente ahora") y el generador de reportes; las de Su
 
 ## Despliegue
 
-El sitio se despliega en Firebase App Hosting. Cada push a `main` dispara un
-rollout automático. La configuración del backend vive en `apphosting.yaml`.
+El sitio se despliega en Vercel. Cada push a `main` publica una versión nueva.
+El dominio principal es `teolabs.app`; `www.teolabs.app` redirige a él (308).
+
+Antes del primer deploy con base de datos, correr en el SQL Editor de Supabase
+`supabase/schema.sql` y después `supabase/0002_errores_y_frenos.sql`.
 
 ---
 

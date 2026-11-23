@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { checkAdminAuthorization } from '@/lib/admin-auth';
 
 /**
  * Proteccion del panel interno.
@@ -14,43 +15,25 @@ import { NextResponse, type NextRequest } from 'next/server';
  * Falla cerrado a proposito: si la variable no esta configurada el panel no se
  * sirve. Para datos de clientes es preferible quedarse afuera por error de
  * configuracion que quedar expuesto por olvido.
+ *
+ * La comparacion de la clave vive en src/lib/admin-auth.ts porque las Server
+ * Actions del panel la repiten por su cuenta.
  */
 
-/** Comparacion en tiempo constante: no filtra la clave por cuanto tarda. */
-function safeEqual(a: string, b: string) {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) {
-    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  }
-  return diff === 0;
-}
-
 export function middleware(request: NextRequest) {
-  const expected = process.env.ADMIN_PASSWORD;
+  const check = checkAdminAuthorization(request.headers.get('authorization'));
 
-  if (!expected) {
+  if (check === 'sin-clave-configurada') {
     return new NextResponse(
       'Panel deshabilitado: falta configurar la variable de entorno ADMIN_PASSWORD.',
       { status: 503, headers: { 'X-Robots-Tag': 'noindex, nofollow' } }
     );
   }
 
-  const header = request.headers.get('authorization');
-
-  if (header?.startsWith('Basic ')) {
-    try {
-      const decoded = atob(header.slice(6));
-      // Formato "usuario:clave". El usuario no se valida, solo la clave.
-      const password = decoded.slice(decoded.indexOf(':') + 1);
-      if (safeEqual(password, expected)) {
-        const response = NextResponse.next();
-        response.headers.set('X-Robots-Tag', 'noindex, nofollow');
-        return response;
-      }
-    } catch {
-      // Cabecera mal formada: cae al 401 de abajo.
-    }
+  if (check === 'ok') {
+    const response = NextResponse.next();
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+    return response;
   }
 
   return new NextResponse('Autenticación requerida.', {
