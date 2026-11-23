@@ -14,7 +14,7 @@ import LegalPage, { LegalList, type LegalSection } from '@/components/layout/leg
  *   banner. Sin aceptar no se carga nada.
  * - Almacenamiento local: `cookie-consent` y `teolabs-theme` (localStorage),
  *   `teolabs-splash-seen` (sessionStorage). Ninguno identifica a la persona.
- * - Hosting: Firebase App Hosting (Google Cloud).
+ * - Hosting: Vercel.
  *
  * Marco legal: Ley 19.628 vigente, y redactada para la Ley 21.719 (publicada el
  * 13-12-2024), cuya entrada en vigencia estaba fijada para el 1-12-2026 con un
@@ -111,7 +111,7 @@ const sections: LegalSection[] = [
           items={[
             <><strong className="text-foreground">Supabase:</strong> base de datos donde quedan guardadas las solicitudes del formulario.</>,
             <><strong className="text-foreground">Web3Forms:</strong> envío por correo de cada solicitud del formulario.</>,
-            <><strong className="text-foreground">Google Cloud (Firebase App Hosting):</strong> servidores donde corre el sitio.</>,
+            <><strong className="text-foreground">Vercel:</strong> servidores donde corre el sitio.</>,
             <><strong className="text-foreground">Google (Gemini):</strong> procesa las preguntas del agente de demostración para generar la respuesta.</>,
             <><strong className="text-foreground">Google Analytics:</strong> solo si aceptas la medición.</>,
             <><strong className="text-foreground">WhatsApp (Meta):</strong> solo si eliges escribirnos por ese canal.</>,
@@ -211,7 +211,7 @@ export default function PrivacyPage() {
     <LegalPage
       eyebrow="Legal"
       title="Política de privacidad"
-      updated="10 de octubre de 2026"
+      updated="22 de noviembre de 2026"
       summary={[
         'Solo pedimos lo necesario para responderte: nombre, correo, WhatsApp y lo que nos cuentes de tu proyecto.',
         'No vendemos ni cedemos tus datos. Los usan solo los servicios que hacen funcionar el sitio.',
